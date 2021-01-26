@@ -58,6 +58,12 @@ root -b -l -q 'makeLimitPlotsLegacyAna.C("Jun15_2020", "./FullRun2_Unblinded_Jun
 python makePvaluesPlotLegacyAna.py --basedir ./FullRun2_Unblinded_Jun15/ --pdfName Jun15_2020 --approved
 ```
 
+### Making NP pulls plot in Figure 8 of the paper
+
+```
+python makeNPplotsLegacyAna.py ./FullRun2_Unblinded_Jun15/Fit_Data_Combo/output-files/RPV_400_Combo/fitDiagnosticsComboRPV400.root --approved
+```
+
 ## Making Legacy Plots for SUS-19-004 Supplementary
 
 ### Making Figure 1 of the Supplementary Material
@@ -66,7 +72,7 @@ python makePvaluesPlotLegacyAna.py --basedir ./FullRun2_Unblinded_Jun15/ --pdfNa
 python makeBinEdgePlotLegacyAna.py --approved
 ```
 
-### Making NP plots for Figure 8 in paper and Figure 4, 5, and 6 in Supplementary
+### Making NP plots for Figure 4, 5, and 6 in Supplementary
 
 ```
 python makeNPplotsLegacyAna.py ./FullRun2_Unblinded_Jun15/Fit_Data_2016/output-files/RPV_400_2016/fitDiagnostics2016RPV400.root --approved
