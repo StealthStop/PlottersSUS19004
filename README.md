@@ -8,7 +8,7 @@ cd CMSSW_10_2_5/src
 cmsenv
 ```
 
-Then run `make` to compile C script
+Then run `make` to compile the `plot_1l_LegacyAna.C` script
 
 ## Making Legacy Plots for SUS-19-004
 
