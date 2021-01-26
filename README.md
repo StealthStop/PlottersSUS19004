@@ -24,6 +24,21 @@ Once copied the `DataVsMC` folder locally to the `condor/hadded` path with `Anal
 ./plot_1l_LegacyAna -y 2020 -t DataVsMC -a 1 # Here 2020 is synonymous with 2017+2018
 ```
 
+### Making Figure 3 of the Paper
+
+Make sure you copy the qcdcr\_study.root file from EOS, and then run the following commands
+```
+python makeDataDrivenQcdCrPlotsLegacyAna.py
+```
+
+### Making Figure 4 of the Paper
+
+You will need to run the fit results formatting using a special script (#JOSH - please elucidate here). 
+Then, the plots are made by running:
+```
+python makeFitPlotsLegacyAna.py --bkgonly --twosigfit
+```
+
 ### Making Figure 9 and 10 of Supplementary Material
 
 ```
