@@ -23,11 +23,10 @@ parser.add_argument( '--path', dest = 'path', default=".", help = 'Input path' )
 args = parser.parse_args()
 
 #Define some global arrays that will be used later in the plotting script
-mvaBinList                  = [ "D1", "D2", "D3", "D4" ]
-textArray                   = [ "NN bin D1", "NN bin D2", "NN bin D3", "NN bin D4" ]
+snnBinList                  = [ "D1", "D2", "D3", "D4" ]
+textArray                   = [ "S_{NN,1}", "S_{NN,2}", "S_{NN,3}", "S_{NN,4}" ]
 borderSize                  = 0.20
-yearList                    = [ ("Combo16","Y16_")]
-#yearList                    = [ ("2016",""), ("2017",""), ("2018pre",""), ("2018post",""), ("Combo16","Y16_"), ("Combo17","Y17_"), ("Combo18pre","Y18pre_"), ("Combo18post","Y18post_") ]
+yearList                    = [ ("Combo16","Y16_"), ("Combo17", "Y17_"), ("Combo18pre", "Y18pre_"), ("Combo18post", "Y18post_") ]
 lumi                        = 0.0
 
 #Variables for pads that are derived from the border size
@@ -52,7 +51,7 @@ def main() :
         elif year == "2018post" or year == "Combo18post" :
             lumi                    = "38.7"
     
-        c1, topPadArray, ratioPadArray = makeCanvasAndPads(year, prefix)
+        c1, topPadArray, ratioPadArray = makeCanvasAndPads( year, prefix )
         c1, topPadArray, ratioPadArray = formatCanvasAndPads( c1, topPadArray, ratioPadArray )
     
         #Arrays needed for easy plotting (save a copy of all legends and fit histograms derived
@@ -64,22 +63,22 @@ def main() :
        
         dummyPullHist, dummyPullHist_D4 = makeDummyPullHistograms()
     
-        for itBin in xrange( 0, len(mvaBinList) ):    
+        for itBin in xrange( 0, len(snnBinList) ):    
     
             #Define the name of the bin, which is used in the naming convention of the root file
-            mvaBin                      = prefix+mvaBinList[ itBin ]
+            snnBin                      = prefix+snnBinList[ itBin ]
     
-            sigRefHist1                  = inputRootFile.Get( "sigRefHist1_"+mvaBin )
-            sigRefHist2                  = inputRootFile.Get( "sigRefHist2_"+mvaBin )
-            sigHist                     = inputRootFile.Get( "sigHist_"+mvaBin )
-            ttHist                     = inputRootFile.Get( "ttHist_"+mvaBin )
-            qcdHist                     = inputRootFile.Get( "qcdHist_"+mvaBin )
-            ttxHist                     = inputRootFile.Get( "ttxHist_"+mvaBin )
-            otherHist                   = inputRootFile.Get( "otherHist_"+mvaBin )
-            bkgdHist                    = inputRootFile.Get( "bkgdHist_"+mvaBin )
-            fitGraph                    = inputRootFile.Get( "Fit_"+mvaBin )
-            dataGraph                   = inputRootFile.Get( "Nobs_"+mvaBin )
-            fitHist                     = ROOT.TH1D( "fitHist_"+mvaBinList[itBin], "fitHist_"+mvaBinList[itBin], 6, 0, 6 )
+            sigRefHist1                 = inputRootFile.Get( "sigRefHist1_"+snnBin )
+            sigRefHist2                 = inputRootFile.Get( "sigRefHist2_"+snnBin )
+            sigHist                     = inputRootFile.Get( "sigHist_"+snnBin )
+            ttHist                      = inputRootFile.Get( "ttHist_"+snnBin )
+            qcdHist                     = inputRootFile.Get( "qcdHist_"+snnBin )
+            ttxHist                     = inputRootFile.Get( "ttxHist_"+snnBin )
+            otherHist                   = inputRootFile.Get( "otherHist_"+snnBin )
+            bkgdHist                    = inputRootFile.Get( "bkgdHist_"+snnBin )
+            fitGraph                    = inputRootFile.Get( "Fit_"+snnBin )
+            dataGraph                   = inputRootFile.Get( "Nobs_"+snnBin )
+            fitHist                     = ROOT.TH1D( "fitHist_"+snnBinList[itBin], "fitHist_"+snnBinList[itBin], 6, 0, 6 )
     
             #Make the fit graph (TGraphAsymmErrors object) into a histogram object so that axes can be changed accordingly (can also use dummy histogram here).
             #Bands will be drawn using the TGraphAsymmErrors, so the bin error here is just for some consistency ( but is not really used ).
@@ -110,8 +109,8 @@ def main() :
                 fitHistArray[itBin].GetYaxis().SetRangeUser( 0.05, 1e6 )
    
             #This is the graphs for where the pulls are calculated
-            pullsGraph                  = inputRootFile.Get( "pulls_"+mvaBin )
-            pullsErrGraph               = inputRootFile.Get( "pullsErr_"+mvaBin )
+            pullsGraph                  = inputRootFile.Get( "pulls_"+snnBin )
+            pullsErrGraph               = inputRootFile.Get( "pullsErr_"+snnBin )
             
             pullsGraph.SetLineWidth( 1 )
             pullsErrGraph.SetLineWidth( 1 )
@@ -121,99 +120,103 @@ def main() :
     
             fitHistArray[itBin].Draw( "HIST" ) #Hist plot necessary to get the right borders
             fitGraph.Draw( "2 SAME" ) #Need to be drawn next to get any asymmetric errors (though they seem symmetric in spot checks)
+            fitHistArray[itBin].Draw( "HIST SAME" ) #Hist plot again to make the right order for plotting
             ROOT.gPad.RedrawAxis()
     
             #Draw the TText for the naming of the NN bin. Size and location is dependent on border size
             ttext                       = ROOT.TText()
     
             if itBin == 0:
-                ttext.SetTextSize( 0.06*pad2and3Size/pad1and4Size )
-                ttext.DrawTextNDC( ROOT.gPad.GetLeftMargin() + 0.03, 1 - (ROOT.gPad.GetTopMargin() + 0.097 ), textArray[itBin] )
+                ttext.SetTextSize( 0.08*pad2and3Size/pad1and4Size )
+                ttext.DrawTextNDC( ROOT.gPad.GetLeftMargin() + 0.1, fitHistArray[itBin].GetMaximum()/5.0, textArray[itBin] )
             
-            elif itBin == len(mvaBinList) - 1 :
-                ttext.SetTextSize( 0.06*pad2and3Size/pad1and4Size )
-                ttext.DrawTextNDC( ROOT.gPad.GetLeftMargin() + 0.03, 1 - (ROOT.gPad.GetTopMargin() + 0.097 ), textArray[itBin] )
+            elif itBin == len(snnBinList) - 1 :
+                ttext.SetTextSize( 0.08*pad2and3Size/pad1and4Size )
+                ttext.DrawTextNDC( ROOT.gPad.GetLeftMargin() + 0.3, fitHistArray[itBin].GetMaximum()/5.0, textArray[itBin] )
             
             else:
-                ttext.SetTextSize( 0.06 )
-                ttext.DrawTextNDC( ROOT.gPad.GetLeftMargin() + 0.03, 1 - (ROOT.gPad.GetTopMargin() + 0.097 ), textArray[itBin] )
+                ttext.SetTextSize( 0.07 )
+                ttext.DrawTextNDC( ROOT.gPad.GetLeftMargin() + 0.3, fitHistArray[itBin].GetMaximum()/5.0, textArray[itBin] )
     
             #Add CMS Preliminary (work in progress)
             mark                        = ROOT.TLatex()
             mark.SetNDC( ROOT.kTRUE )
             mark.SetTextAlign( 11 )
+
+            yearText = ""
+            if year == "Combo16" :
+                yearText = "2016"
+            if year == "Combo17" :
+                yearText = "2017"
+            if year == "Combo18pre" :
+                yearText = "2018A"
+            if year == "Combo18post" :
+                yearText = "2018B" 
+
             if itBin == 0 :
-                mark.SetTextSize( 0.055*pad1and4Size/pad2and3Size )
+                mark.SetTextSize( 0.065*pad1and4Size/pad2and3Size )
                 mark.SetTextFont( 60 )
                 mark.DrawLatex( ROOT.gPad.GetLeftMargin() + 0.015, 0.91, "CMS")
                 mark.SetTextSize( 0.044*pad1and4Size/pad2and3Size )
                 mark.SetTextFont( 52 )
-                mark.DrawLatex( ROOT.gPad.GetLeftMargin() + 0.165, 0.91, "Preliminary")
-            if itBin == len(mvaBinList) - 1:
+                #mark.DrawLatex( ROOT.gPad.GetLeftMargin() + 0.165, 0.91, "Preliminary" )
+                mark.SetTextSize( 0.055*pad1and4Size/pad2and3Size )
+                mark.SetTextFont( 62 )
+                mark.DrawLatex( ROOT.gPad.GetLeftMargin() + 0.025, 0.21, yearText+" data")
+
+            if itBin == len(snnBinList) - 1:
                 mark.SetTextFont( 42 )
+                mark.SetTextSize( 0.065*pad1and4Size/pad2and3Size )
                 mark.SetTextAlign( 31 )
                 mark.DrawLatex( 1 - ROOT.gPad.GetRightMargin(), 0.91, lumi+" fb^{-1} (13 TeV)" )
     
-            #Draw and save the legends in an array so that the previous legend isn't wiped when switching to a new NN bin.
-            #    Location of legend also depends on NN bin
-            l1                          = ROOT.TLegend()
-            l2                          = ROOT.TLegend()
-            l1_yStart                   = 0.70
-            l2_yStart                   = 0.55
-            if( args.bkgdfit ):
-                l1_yStart               = l1_yStart - 0.05
-            if( args.twosigfit ) :
-                l1_yStart               = l1_yStart - 0.05
+            #Draw and save the legend on in the S_{NN,4} bin.
+            if itBin == len(snnBinList) - 1 :
+                
+                l1_yStart                   = 0.71
+                l2_yStart                   = 0.55
+
+                if( args.bkgdfit ):
+                    l1_yStart               = l1_yStart - 0.25
+                if( args.twosigfit ) :
+                    l1_yStart               = l1_yStart - 0.20
     
-            if itBin == 0 :
-                l1                          = ROOT.TLegend( 0.45+(borderSize)/2, l1_yStart, 0.87+(borderSize)/2, 0.85 )
-                l2                          = ROOT.TLegend( 0.45+(borderSize)/2, l2_yStart, 0.87+(borderSize)/2, l1_yStart-0.01 )
+                l1                          = ROOT.TLegend( 0.22, l1_yStart, 0.80-(borderSize)/2, 0.85 )
+                l2                          = ROOT.TLegend( 0.22, l2_yStart, 0.80-(borderSize)/2, 0.70 )
 
-                l1.SetTextSize(0.05*pad2and3Size/pad1and4Size)
-                l2.SetTextSize(0.05*pad2and3Size/pad1and4Size)
-            elif itBin == len(mvaBinList) - 1:
-                l1                          = ROOT.TLegend( 0.45-(borderSize)/2, l1_yStart, 0.87-(borderSize)/2, 0.85 )
-                l2                          = ROOT.TLegend( 0.45-(borderSize)/2, l2_yStart, 0.87-(borderSize)/2, l1_yStart-0.01 )
-
-                l1.SetTextSize(0.05*pad2and3Size/pad1and4Size)
-                l2.SetTextSize(0.05*pad2and3Size/pad1and4Size)
-
-            else :
-                l1                          = ROOT.TLegend( 0.45, l1_yStart, 0.87, 0.85 )
-                l2                          = ROOT.TLegend( 0.45, l2_yStart, 0.87, l1_yStart-0.01 )
-
-                l1.SetTextSize(0.05)
-                l2.SetTextSize(0.05)
+                l1.SetTextSize(0.08*pad2and3Size/pad1and4Size)
+                l2.SetTextSize(0.08*pad2and3Size/pad1and4Size)
            
-            l1.AddEntry( fitHist, "Fit" )
-            l1.AddEntry( dataGraph, "N observed", "pl" )
-            if( args.bkgonlyfit ) :
-                l1.AddEntry( sigRefHist1, args.model1+" m_{#tilde t} = "+args.mass1+" GeV" )
-            else :
-                l1.AddEntry( sigHist, "Fit Signal" )
-            if( args.twosigfit ) :
-                l1.AddEntry( sigRefHist2, args.model2+" m_{#tilde t} = "+args.mass2+" GeV" )
-            if( args.bkgdfit ) :
-                l1.AddEntry( bkgdHist, "Fit Background" )
-            if( args.compshapes ):
-                l2.SetNColumns(2)
-                l2.AddEntry(ttHist, "TT")
-                l2.AddEntry(qcdHist, "QCD")
-                l2.AddEntry(ttxHist, "TTX")
-                l2.AddEntry(otherHist, "OTHER")
+                l1.AddEntry( fitHist, "Bkg Fit" )
+                l1.AddEntry( dataGraph, "N observed", "pl" )
+                if( args.bkgonlyfit ) :
+                    l1.AddEntry( sigRefHist1, args.model1+" m_{#tilde t} = "+args.mass1+" GeV" )
+                else :
+                    l1.AddEntry( sigHist, "Fit Signal" )
+                if( args.twosigfit ) :
+                    l1.AddEntry( sigRefHist2, args.model2+" m_{#tilde t} = "+args.mass2+" GeV" )
+                if( args.bkgdfit ) :
+                    l1.AddEntry( bkgdHist, "Bkgd" )
+                if( args.compshapes ):
+                    l2.SetNColumns(2)
+                    l2.AddEntry(ttHist, "TT")
+                    l2.AddEntry(qcdHist, "QCD")
+                    l2.AddEntry(ttxHist, "TTX")
+                    l2.AddEntry(otherHist, "OTHER")
 
-            l1.SetBorderSize(0)
-            l2.SetBorderSize(0)
-            legendArray1.append( copy.deepcopy( l1 ) ) #Need to save legend as to not be erased
-            legendArray1[itBin].Draw()
+                l1.SetBorderSize(0)
+                l2.SetBorderSize(0)
+                
+                l1.Draw()
     
-            if( args.compshapes ):
-                legendArray2.append( copy.deepcopy( l2 ) ) #Need to save legend as to not be erased
-                legendArray2[itBin].Draw()
+                if( args.compshapes ):
+                    l2.Draw()
 
+            dataGraph = SetEx( dataGraph, 0.0 )
+            dataGraph.Draw( "P SAME" )
             if( args.bkgdfit ) :
-                fitHistArray[itBin].Draw( "HIST SAME" )
                 bkgdHist.Draw( "HIST SAME" )
+                fitHistArray[itBin].Draw( "HIST SAME" )
             if( args.bkgonlyfit ) :
                 sigRefHist1.Draw( "HIST SAME" )
             else :
@@ -225,7 +228,6 @@ def main() :
                 qcdHist.Draw("HIST SAME")
                 ttxHist.Draw("HIST SAME")
                 otherHist.Draw("HIST SAME")
-            dataGraph.Draw( "P SAME" )
            
             #Draw pulls here
             ratioPadArray[itBin].cd()
@@ -234,7 +236,7 @@ def main() :
             myline.SetLineWidth( 1 )
             lineArray.append( copy.deepcopy( myline ) )
             
-            if itBin == len(mvaBinList) - 1:
+            if itBin == len(snnBinList) - 1:
                 dummyPullHist_D4.Draw()
             else:
                 dummyPullHist.Draw()
@@ -243,11 +245,19 @@ def main() :
             ROOT.gPad.RedrawAxis()
             lineArray[-1].Draw("SAME")
             dummyPullHist.Draw("AL SAME")
+            pullsGraph = SetEx( pullsGraph, 0.0 )
             pullsGraph.Draw("P SAME")
             
             c1.Update()
     
         c1.SaveAs("RPV"+args.mass1+year+fitType+"_fitPlots.pdf")
+
+def SetEx(  inputTGraphAsymmErrors, uniformErrSize ):
+    nPoints = inputTGraphAsymmErrors.GetN()
+    for i in xrange( nPoints ):
+        inputTGraphAsymmErrors.SetPointEXhigh( i, uniformErrSize )
+        inputTGraphAsymmErrors.SetPointEXlow( i, uniformErrSize )
+    return inputTGraphAsymmErrors
 
 def makeDummyPullHistograms():
     
@@ -255,7 +265,7 @@ def makeDummyPullHistograms():
     dummyPullHist.GetYaxis().SetRangeUser( -3.5, 3.5 )
     dummyPullHist.SetMinimum( -3.5 )
     dummyPullHist.SetMaximum( 3.5 )
-    dummyPullHist.SetYTitle( "(val - fit) / #sigma" )
+    dummyPullHist.SetYTitle( "(data - fit) / #delta" )
     dummyPullHist.SetTitleSize( 0.175, "y" )
     dummyPullHist.SetTitleOffset( 0.5, "y" )
     dummyPullHist.SetLabelOffset( 0.025, "x" )
@@ -300,8 +310,8 @@ def formatCanvasAndPads( c1, topPadArray, ratioPadArray ) :
             ratioPadArray[iPad].SetLeftMargin( 0.0 )
 
         if iPad == (len(topPadArray) - 1) :
-            topPadArray[iPad].SetRightMargin( borderSize )
-            ratioPadArray[iPad].SetRightMargin( borderSize )
+            topPadArray[iPad].SetRightMargin( borderSize - 0.1 )
+            ratioPadArray[iPad].SetRightMargin( borderSize - 0.1)
         else :
             topPadArray[iPad].SetRightMargin( 0.0 )
             ratioPadArray[iPad].SetRightMargin( 0.0 )
@@ -321,17 +331,17 @@ def makeCanvasAndPads(year, prefix) :
 
     c1                          = ROOT.TCanvas( "c1_%s"%(tag), "c1_%s"%(tag), 0, 0, 1200, 480 )
     
-    p1_D1                       = ROOT.TPad( "p1_D1_%s"%(tag), "p1_D1_%s"%(tag), 0, 0.30, pad1and4Size/totalPadSize, 1.0 )
-    p2_D1                       = ROOT.TPad( "p2_D1_%s"%(tag), "p2_D1_%s"%(tag), 0, 0, pad1and4Size/totalPadSize, 0.30 )
+    p1_D1                       = ROOT.TPad( "p1_D1_%s"%(tag), "p1_D1_%s"%(tag), 0, 0.30, ( pad1and4Size + 0.08 )/totalPadSize, 1.0 )
+    p2_D1                       = ROOT.TPad( "p2_D1_%s"%(tag), "p2_D1_%s"%(tag), 0, 0, ( pad1and4Size + 0.08 )/totalPadSize, 0.30 )
     
-    p1_D2                       = ROOT.TPad( "p1_D2_%s"%(tag), "p1_D2_%s"%(tag), pad1and4Size/totalPadSize, 0.30, (pad1and4Size + pad2and3Size)/totalPadSize, 1.0 )
-    p2_D2                       = ROOT.TPad( "p2_D2_%s"%(tag), "p2_D2_%s"%(tag), pad1and4Size/totalPadSize, 0, (pad1and4Size + pad2and3Size)/totalPadSize, 0.30 )
+    p1_D2                       = ROOT.TPad( "p1_D2_%s"%(tag), "p1_D2_%s"%(tag), ( pad1and4Size + 0.08 )/totalPadSize, 0.30, (pad1and4Size + pad2and3Size + 0.09)/totalPadSize, 1.0 )
+    p2_D2                       = ROOT.TPad( "p2_D2_%s"%(tag), "p2_D2_%s"%(tag), ( pad1and4Size + 0.08 )/totalPadSize, 0, (pad1and4Size + pad2and3Size + 0.09 )/totalPadSize, 0.30 )
     
-    p1_D3                       = ROOT.TPad( "p1_D3_%s"%(tag), "p1_D3_%s"%(tag), (pad1and4Size + pad2and3Size)/totalPadSize, 0.30, (pad1and4Size + 2*pad2and3Size)/totalPadSize, 1.0 )
-    p2_D3                       = ROOT.TPad( "p2_D3_%s"%(tag), "p2_D3_%s"%(tag), (pad1and4Size + pad2and3Size)/totalPadSize, 0, (pad1and4Size + 2*pad2and3Size)/totalPadSize, 0.30 )
+    p1_D3                       = ROOT.TPad( "p1_D3_%s"%(tag), "p1_D3_%s"%(tag), (pad1and4Size + pad2and3Size + 0.09 )/totalPadSize, 0.30, (pad1and4Size + 2*pad2and3Size + 0.10 )/totalPadSize, 1.0 )
+    p2_D3                       = ROOT.TPad( "p2_D3_%s"%(tag), "p2_D3_%s"%(tag), (pad1and4Size + pad2and3Size + 0.09 )/totalPadSize, 0, (pad1and4Size + 2*pad2and3Size + 0.10 )/totalPadSize, 0.30 )
     
-    p1_D4                       = ROOT.TPad( "p1_D4_%s"%(tag), "p1_D4_%s"%(tag), (pad1and4Size + 2*pad2and3Size)/totalPadSize, 0.30, 1.0, 1.0 )
-    p2_D4                       = ROOT.TPad( "p2_D4_%s"%(tag), "p2_D4_%s"%(tag), (pad1and4Size + 2*pad2and3Size)/totalPadSize, 0, 1.0, 0.30 )
+    p1_D4                       = ROOT.TPad( "p1_D4_%s"%(tag), "p1_D4_%s"%(tag), (pad1and4Size + 2*pad2and3Size + 0.10)/totalPadSize, 0.30, 1.0, 1.0 )
+    p2_D4                       = ROOT.TPad( "p2_D4_%s"%(tag), "p2_D4_%s"%(tag), (pad1and4Size + 2*pad2and3Size + 0.10)/totalPadSize, 0, 1.0, 0.30 )
 
     return c1, [p1_D1, p1_D2, p1_D3, p1_D4], [p2_D1, p2_D2, p2_D3, p2_D4]
 
