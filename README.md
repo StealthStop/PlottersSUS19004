@@ -1,3 +1,15 @@
+## Setup Area for Running
+
+Get a release of CMSSW
+
+```
+cmsrel CMSSW_10_2_5
+cd CMSSW_10_2_5/src
+cmsenv
+```
+
+Then run `make` to compile C script
+
 ## Making Legacy Plots for SUS-19-004
 
 Input ROOT files for making data vs MC stack plots and signal vs background plots, as found in Fig. 2 of the paper and in Fig. 7, 8, 9, and 10 of the supplementary material twiki, are located at:
@@ -60,7 +72,7 @@ root -b -l -q 'makeLimitPlotsLegacyAna.C("Jun15_2020", "./FullRun2_Unblinded_Jun
 ### Making p-value plots in Figure 7 of the paper
 
 ```
-python ./condor/table_signal_strength.py --basedir ./FullRun2_Unblinded_Jun15/ --pdfName Jun15_2020 --approved
+python makePvaluesPlotLegacyAna.py --basedir ./FullRun2_Unblinded_Jun15/ --pdfName Jun15_2020 --approved
 ```
 
 ### Making fit plots in Figure 4 of the paper
