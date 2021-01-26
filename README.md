@@ -59,8 +59,6 @@ python ttVsSigNNLegacyAna.py --year 2017 --approved --inputDir ./condor/hadded/D
 python makeBinEdgePlotLegacyAna.py --approved
 ```
 
-## Making Legacy Results Plots for SUS-19-004
-
 Input ROOT files for making the limit plots and p-value plots, found in the paper, as well as nuisance parameter plots, found in the paper and supplementary material are located at:
 `/eos/uscms/store/user/lpcsusyhad/StealthStop/PlotInputs/SUS19004/LimitsAndPvalues/FullRun2_Unblinded_Jun15`.
 Copy the `FullRun2_Unblinded_Jun15` folder locally.
@@ -93,5 +91,5 @@ python makePvaluesPlotLegacyAna.py --basedir ./FullRun2_Unblinded_Jun15/ --pdfNa
 ### Making fit plots in Figure 4 of the paper
 
 ```
-python makeFitPlotsLegacyAna.py  --path ./Fits/ --plotbkg --mass1 450 --model1 RPV --mass2 850 --model2 SYY
+python makeFitPlotsLegacyAna.py --path ./Fits/ --bkgonlyfit --twosigfit --mass1 450 --model1 RPV --mass2 850 --model2 SYY
 ```
