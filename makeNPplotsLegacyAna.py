@@ -235,10 +235,7 @@ import ROOT
 ROOT.gROOT.SetStyle("Plain")
 ROOT.gStyle.SetOptFit(1)
 
-year = ""; tag = ""; data = True
-print file.GetName()
-if "pseudo" in file.GetName():
-    data = False
+year = ""; tag = ""; supp = True
 if   "2016"     in file.GetName():
     year = "2016 (13 TeV)"
     tag = "2016"
@@ -254,6 +251,7 @@ elif "2018post" in file.GetName():
 elif "Combo"    in file.GetName():
     year = "137 fb^{-1} (13 TeV)"
     tag = "Combo"
+    supp = False
 
 canvas_nuis = ROOT.TCanvas("nuisances", "nuisances", 1800, 800)
 canvas_nuis.Divide(1,2); canvas_nuis.cd(1)
@@ -398,7 +396,7 @@ mark.SetTextSize(0.15);
 mark.SetTextFont(61);
 mark.DrawLatex(-0.04 + ROOT.gPad.GetLeftMargin(), 1 - (ROOT.gPad.GetTopMargin() + 0.005), "CMS")
 mark.SetTextFont(52);
-if data:
+if supp:
     mark.DrawLatex(-0.04 + ROOT.gPad.GetLeftMargin() + 0.07, 1 - (ROOT.gPad.GetTopMargin() + 0.005), SUPP)
 else:
     if not options.approved: 
@@ -436,7 +434,7 @@ dummyChi2.GetYaxis().SetLabelSize(0.1*PadFactor)
 dummyChi2.GetXaxis().SetLabelSize(0.1*PadFactor)
 dummyChi2.GetXaxis().SetLabelOffset(0.012/PadFactor)
 
-if data: dummyChi2.GetYaxis().SetRangeUser(-3.7,2.7)
+if supp: dummyChi2.GetYaxis().SetRangeUser(-3.7,2.7)
 else:    dummyChi2.GetYaxis().SetRangeUser(-16.2,1.2)
 
 dummyChi2.GetYaxis().SetNdivisions(5,5,0)
@@ -495,7 +493,7 @@ mark.SetTextSize(0.045);
 mark.SetTextFont(61);
 mark.DrawLatex(ROOT.gPad.GetLeftMargin(), 1 - (ROOT.gPad.GetTopMargin() - 0.02), "CMS")
 mark.SetTextFont(52);
-if data:
+if supp:
     mark.DrawLatex(ROOT.gPad.GetLeftMargin() + 0.10, 1 - (ROOT.gPad.GetTopMargin() - 0.02), SUPP)
 else:
     if not options.approved: 
@@ -511,7 +509,7 @@ nentries = dChi2Histo.GetEntries()
 mean = dChi2Histo.GetMean()
 dchi2 = mean * nentries
 
-if data: dChi2Histo.GetXaxis().SetRangeUser(-3.1,3.1)
+if supp: dChi2Histo.GetXaxis().SetRangeUser(-3.1,3.1)
 else:    dChi2Histo.GetXaxis().SetRangeUser(-13.75,0.75)
 
 canvas_dchi2.SetLogy()
@@ -562,7 +560,7 @@ mark.SetTextSize(0.045);
 mark.SetTextFont(61);
 mark.DrawLatex(ROOT.gPad.GetLeftMargin(), 1 - (ROOT.gPad.GetTopMargin() - 0.02), "CMS")
 mark.SetTextFont(52);
-if data:
+if supp:
     mark.DrawLatex(ROOT.gPad.GetLeftMargin() + 0.10, 1 - (ROOT.gPad.GetTopMargin() - 0.02), SUPP)
 else:
     if not options.approved: 
@@ -582,7 +580,7 @@ sbnentries = sbChi2Histo.GetEntries()
 sbmean = sbChi2Histo.GetMean()
 sbchi2 = sbmean * nentries
 
-if data: bChi2Histo.GetXaxis().SetRangeUser(0,3.1)
+if supp: bChi2Histo.GetXaxis().SetRangeUser(0,3.1)
 else:    bChi2Histo.GetXaxis().SetRangeUser(0,13.75)
 
 canvas_chi2.SetLogy()
