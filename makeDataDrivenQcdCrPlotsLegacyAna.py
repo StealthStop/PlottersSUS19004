@@ -14,7 +14,7 @@ parser = OptionParser()
 
 parser.add_option( '-i', '--inputFileName', action = 'store', 
                     dest = 'inputFileName', type = 'string', 
-                    default = 'qcdcr_study.root', help = 'Name of input ROOT file with the histograms needed to create Figure 3' )
+                    default = './QCDCR/qcdcr_study.root', help = 'Name of input ROOT file with the histograms needed to create Figure 3' )
 
 parser.add_option( '-o', '--outputDirName', action = 'store', 
                     dest = 'outputDirName', type = 'string', 

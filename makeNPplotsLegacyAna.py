@@ -24,8 +24,6 @@ if hasHelp: argv.append("-h")
 
 ARXIV = "XXXX.XXXXX"
 
-SUPP = "Supplementary"
-
 parser = OptionParser(usage="usage: %prog [options] in.root  \nrun with --help to get list of options")
 parser.add_option("--approved",      dest="approved",      default=False, action="store_true", help="Plot is approved, no preliminary")
 
@@ -409,16 +407,16 @@ mark.SetTextFont(61);
 mark.DrawLatex(-0.04 + ROOT.gPad.GetLeftMargin(), 1 - (ROOT.gPad.GetTopMargin() + 0.005), "CMS")
 mark.SetTextFont(52);
 if supp:
-    mark.DrawLatex(-0.04 + ROOT.gPad.GetLeftMargin() + 0.07, 1 - (ROOT.gPad.GetTopMargin() + 0.005), SUPP)
+    mark.DrawLatex(-0.04 + ROOT.gPad.GetLeftMargin() + 0.07, 1 - (ROOT.gPad.GetTopMargin() + 0.005), "Supplementary")
 else:
     if not options.approved: 
-        mark.DrawLatex(-0.04 + ROOT.gPad.GetLeftMargin() + 0.07, 1 - (ROOT.gPad.GetTopMargin() + 0.006), "Simulation")
+        mark.DrawLatex(-0.04 + ROOT.gPad.GetLeftMargin() + 0.07, 1 - (ROOT.gPad.GetTopMargin() + 0.006), "Preliminary")
     else:
-        mark.DrawLatex(-0.04 + ROOT.gPad.GetLeftMargin() + 0.07, 1 - (ROOT.gPad.GetTopMargin() + 0.006), "Simulation")
+        mark.DrawLatex(-0.04 + ROOT.gPad.GetLeftMargin() + 0.07, 1 - (ROOT.gPad.GetTopMargin() + 0.006), "")
 
 mark.SetTextSize(0.11)
 mark.SetTextFont(42)
-if "Combo" not in year: mark.DrawLatex(-0.04 + ROOT.gPad.GetLeftMargin() + 0.30, 1 - (ROOT.gPad.GetTopMargin() + 0.005), "arXiv:%s"%(ARXIV))
+if "Combo" not in tag: mark.DrawLatex(-0.04 + ROOT.gPad.GetLeftMargin() + 0.30, 1 - (ROOT.gPad.GetTopMargin() + 0.005), "arXiv:%s"%(ARXIV))
 
 leg=ROOT.TLegend(0.68,0.56,0.78,0.85)
 leg.SetFillColor(0)
@@ -471,7 +469,7 @@ l.Draw("SAME")
 ROOT.gPad.SetGridx()
 
 fig = "Nuisance_Pulls"
-if supp: fig = "005" 
+if supp: fig = "004" 
 
 if not options.approved:
     canvas_nuis.SaveAs("PlotsForLegacyAna/%s/%s_%s_prelim.pdf"%(fig,subdir,tag))
@@ -511,11 +509,11 @@ mark.SetTextSize(0.045);
 mark.SetTextFont(61);
 mark.DrawLatex(ROOT.gPad.GetLeftMargin(), 1 - (ROOT.gPad.GetTopMargin() - 0.02), "CMS")
 mark.SetTextFont(52);
-mark.DrawLatex(ROOT.gPad.GetLeftMargin() + 0.10, 1 - (ROOT.gPad.GetTopMargin() - 0.02), SUPP)
+mark.DrawLatex(ROOT.gPad.GetLeftMargin() + 0.10, 1 - (ROOT.gPad.GetTopMargin() - 0.02), "Supplementary")
 
 mark.SetTextSize(0.035)
 mark.SetTextFont(42)
-if "Combo" not in year: mark.DrawLatex(0.65, 0.90, "arXiv:%s"%(ARXIV))
+mark.DrawLatex(0.65, 0.90, "arXiv:%s"%(ARXIV))
 
 nentries = dChi2Histo.GetEntries()
 mean = dChi2Histo.GetMean()
@@ -536,7 +534,7 @@ meta.SetTextColor(ROOT.kRed)
 meta.DrawLatex(ROOT.gPad.GetLeftMargin() + 0.05, 1 - ROOT.gPad.GetTopMargin() - 0.12, "#LT#Delta#chi^{2}#GT = %3.3f"%(mean))
 meta.DrawLatex(ROOT.gPad.GetLeftMargin() + 0.05, 1 - ROOT.gPad.GetTopMargin() - 0.18, "#sum#Delta#chi^{2} = %3.2f"%(dchi2))
 
-fig = "006"
+fig = "005"
 if not options.approved:
     canvas_dchi2.SaveAs("PlotsForLegacyAna/%s/%s_%s_prelim.pdf"%(fig,subdir,tag))
     canvas_dchi2.SaveAs("PlotsForLegacyAna/%s/%s_%s_prelim.png"%(fig,subdir,tag))
@@ -571,11 +569,11 @@ mark.SetTextSize(0.045);
 mark.SetTextFont(61);
 mark.DrawLatex(ROOT.gPad.GetLeftMargin(), 1 - (ROOT.gPad.GetTopMargin() - 0.02), "CMS")
 mark.SetTextFont(52);
-mark.DrawLatex(ROOT.gPad.GetLeftMargin() + 0.10, 1 - (ROOT.gPad.GetTopMargin() - 0.02), SUPP)
+mark.DrawLatex(ROOT.gPad.GetLeftMargin() + 0.10, 1 - (ROOT.gPad.GetTopMargin() - 0.02), "Supplementary")
 
 mark.SetTextSize(0.035)
 mark.SetTextFont(42)
-if "Combo" not in year: mark.DrawLatex(0.65, 0.90, "arXiv:%s"%(ARXIV))
+mark.DrawLatex(0.65, 0.90, "arXiv:%s"%(ARXIV))
 
 bnentries = bChi2Histo.GetEntries()
 bmean = bChi2Histo.GetMean()
@@ -603,7 +601,7 @@ meta.SetTextColor(cornblue);
 meta.DrawLatex(ROOT.gPad.GetLeftMargin() + 0.05, 1 - ROOT.gPad.GetTopMargin() - 0.26, "#LT#chi^{2}(s+b)#GT = %3.3f"%(sbmean))
 meta.DrawLatex(ROOT.gPad.GetLeftMargin() + 0.05, 1 - ROOT.gPad.GetTopMargin() - 0.32, "#sum#chi^{2} = %3.2f"%(sbchi2))
 
-fig = "007"
+fig = "006"
 if not options.approved:
     canvas_chi2.SaveAs("PlotsForLegacyAna/%s/%s_%s_prelim.pdf"%(fig,subdir,tag))
     canvas_chi2.SaveAs("PlotsForLegacyAna/%s/%s_%s_prelim.png"%(fig,subdir,tag))

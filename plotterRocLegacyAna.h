@@ -131,10 +131,12 @@ public:
         if(firstOnly) 
         {
             c->Print((outpath_ + "/" + fileName + ".pdf").c_str());
+            c->Print((outpath_ + "/" + fileName + ".png").c_str());
         }
         else
         {
             c->Print((outpath_ + "/" + fileName + ".pdf").c_str());
+            c->Print((outpath_ + "/" + fileName + ".png").c_str());
         }
 
         //clean up dynamic memory

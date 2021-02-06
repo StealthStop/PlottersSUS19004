@@ -19,7 +19,7 @@ usage = "usage: %prog [options]"
 parser = argparse.ArgumentParser(usage)
 parser.add_argument("--approved", dest="approved", help="Plot is approved",      action="store_true", default=False) 
 parser.add_argument("--year",     dest="year",     help="which year",            required=True)
-parser.add_argument("--inputDir", dest="inputDir", help="Input dir with histos", required=True)
+parser.add_argument("--inputDir", dest="inputDir", help="Input dir with histos", default="./DataVsMC")
 args = parser.parse_args()
 
 inputDir = args.inputDir

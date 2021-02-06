@@ -7,11 +7,11 @@ cmsrel CMSSW_10_2_5
 cd CMSSW_10_2_5/src
 cmsenv
 
-https://github.com/StealthStop/PlottersSUS19004
+git clone https://github.com/StealthStop/PlottersSUS19004
 cd PlottersSUS19004
-```
 
-Then run `make` to compile the `makeStackPlotLegacyAna.C` and `makeRocPlotLegacyAna.C` scripts
+make -j 4
+```
 
 ## Making Legacy Plots for SUS-19-004 Paper
 
@@ -32,14 +32,14 @@ QCDCR            # Fig. 3 of the paper
 Before continuing, make an output folder that everything will go to
 
 ```
-mkdir PlotsForLegacyAna/{Paper,Supplementary}
+mkdir -p PlotsForLegacyAna/{Paper,Supplementary}
 ```
 
 ### Making Figure 2
 
 ```
-./makeStackPlotLegacyAna -y 2016 -t DataVsMC -a 1
-./makeStackPlotLegacyAna -y 2020 -t DataVsMC -a 1 # Here 2020 is synonymous with 2017+2018
+./makeStackPlotLegacyAna -y 2016 -a 1
+./makeStackPlotLegacyAna -y 2020 -a 1 # Here 2020 is synonymous with 2017+2018
 ```
 
 ### Making Figure 3
@@ -57,7 +57,7 @@ python makeFitPlotsLegacyAna.py --bkgonly --twosigfit
 ### Making Figure 5
 
 ```
-python makeNjetsStackLegacyAna.py --approved --inputDir ./LimitsAndPvalues/FullRun2_Unblinded_Jun15/
+python makeNjetsStackLegacyAna.py --approved
 ```
 
 ### Making Figure 6
@@ -70,7 +70,7 @@ root -b -l -q 'makeLimitPlotsLegacyAna.C("Jun15_2020", "./LimitsAndPvalues/FullR
 ### Making Figure 7
 
 ```
-python makePvaluesPlotLegacyAna.py --basedir ./LimitsAndPvalues/FullRun2_Unblinded_Jun15/ --approved 
+python makePvaluesPlotLegacyAna.py --approved 
 ```
 
 ### Making Figure 8
@@ -112,13 +112,13 @@ python makeNPplotsLegacyAna.py ./LimitsAndPvalues/FullRun2_Unblinded_Jun15/Fit_D
 ### Making Figure 7 and 8
 
 ```
-python makettVsSigNNLegacyAna.py --year 2016 --approved --inputDir ./DataVsMC
-python makettVsSigNNLegacyAna.py --year 2017 --approved --inputDir ./DataVsMC
+python makettVsSigNNLegacyAna.py --year 2016 --approved
+python makettVsSigNNLegacyAna.py --year 2017 --approved
 ```
 
 ### Making Figure 9 and 10
 
 ```
-./makeStackPlotLegacyAna -y 2016 -t DataVsMC -a 1 -s 1
-./makeStackPlotLegacyAna -y 2017 -t DataVsMC -a 1 -s 1
+./makeStackPlotLegacyAna -y 2016 -a 1 -s 1
+./makeStackPlotLegacyAna -y 2017 -a 1 -s 1
 ```
