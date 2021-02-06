@@ -8,20 +8,22 @@ cd CMSSW_10_2_5/src
 cmsenv
 ```
 
-Then run `make` to compile the `plot_1l_LegacyAna.C` script
+Then run `make` to compile the `plot_1l_LegacyAna.C` and `plot_1l_RocLegacyAna.C` script
 
 ## Making Legacy Plots for SUS-19-004 Paper
 
-Input ROOT files for making data vs MC stack plots and signal vs background plots, as found in Fig. 2 of the paper and in Fig. 7, 8, 9, and 10 of the supplementary material twiki, are located at:
-`/eos/uscms/store/user/lpcsusyhad/StealthStop/PlotInputs/SUS19004/DataVsMC`
+Input ROOT files for making the legacy plots for the paper and supplementary material are located at:
+`/eos/uscms/store/user/lpcsusyhad/StealthStop/PlotInputs/SUS19004/`
 
-Once copied the `DataVsMC` folder locally to the `condor/hadded` path with `Analyzer/Analyzer/test`, plots can be made using `plot_1l_LegacyAna`.
-
-Input ROOT files for making the limit plots and p-value plots, found in the paper, as well as nuisance parameter plots, found in the paper and supplementary material are located at:
-`/eos/uscms/store/user/lpcsusyhad/StealthStop/PlotInputs/SUS19004/LimitsAndPvalues/`.
-Copy the `LimitsAndPvalues` folder locally.
-Additionally, one can copy the `Fits` folder from `/eos/uscms/store/user/lpcsusyhad/StealthStop/PlotInputs/SUS19004/Fits`
-
+Copy the following folders locally for plotting:
+```
+DataVsMC # Fig. 2 of the paper and in Fig. 7, 8, 9, and 10 of the supplementary material
+LimitsAndPvalues # Fig. 6, 7, 8 of the paper and Fig. 4, 5, 6
+Fits # Fig. 4 of the paper
+Training # Fig. 2, 3 of the supplementary material
+QCDCR # Fig. 3 of the paper
+```
+Before continuing, make an output folder that everything will go to
 `mkdir PlotsForLegacyAna/{Paper,Supplementary}`
 
 ### Making Figure 2 of the Paper
@@ -33,15 +35,11 @@ Additionally, one can copy the `Fits` folder from `/eos/uscms/store/user/lpcsusy
 
 ### Making Figure 3 of the Paper
 
-Make sure you copy the qcdcr\_study.root file from EOS, and then run the following commands
 ```
 python makeDataDrivenQcdCrPlotsLegacyAna.py
 ```
 
 ### Making Figure 4 of the Paper
-
-You will need to run the fit results formatting using a special script (#JOSH - please elucidate here). 
-Then, the plots are made by running:
 
 ```
 python makeFitPlotsLegacyAna.py --bkgonly --twosigfit
