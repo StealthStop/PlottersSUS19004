@@ -6,9 +6,12 @@ Get a release of CMSSW
 cmsrel CMSSW_10_2_5
 cd CMSSW_10_2_5/src
 cmsenv
+
+https://github.com/StealthStop/PlottersSUS19004
+cd PlottersSUS19004
 ```
 
-Then run `make` to compile the `plot_1l_LegacyAna.C` and `plot_1l_RocLegacyAna.C` scripts
+Then run `make` to compile the `makeStackPlotLegacyAna.C` and `makeRocPlotLegacyAna.C` scripts
 
 ## Making Legacy Plots for SUS-19-004 Paper
 
@@ -35,8 +38,8 @@ mkdir PlotsForLegacyAna/{Paper,Supplementary}
 ### Making Figure 2
 
 ```
-./plot_1l_LegacyAna -y 2016 -t DataVsMC -a 1
-./plot_1l_LegacyAna -y 2020 -t DataVsMC -a 1 # Here 2020 is synonymous with 2017+2018
+./makeStackPlotLegacyAna -y 2016 -t DataVsMC -a 1
+./makeStackPlotLegacyAna -y 2020 -t DataVsMC -a 1 # Here 2020 is synonymous with 2017+2018
 ```
 
 ### Making Figure 3
@@ -54,7 +57,7 @@ python makeFitPlotsLegacyAna.py --bkgonly --twosigfit
 ### Making Figure 5
 
 ```
-python njetsStackLegacyAna.py --approved --inputDir ./LimitsAndPvalues/FullRun2_Unblinded_Jun15/
+python makeNjetsStackLegacyAna.py --approved --inputDir ./LimitsAndPvalues/FullRun2_Unblinded_Jun15/
 ```
 
 ### Making Figure 6
@@ -87,8 +90,8 @@ python makeBinEdgePlotLegacyAna.py --approved
 ### Making Figure 2
 
 ```
-./plot_1l_RocLegacyAna -y 2016
-./plot_1l_RocLegacyAna -y 2017
+./makeRocPlotLegacyAna -y 2016
+./makeRocPlotLegacyAna -y 2017
 ```
 
 ### Making Figure 3
@@ -109,13 +112,13 @@ python makeNPplotsLegacyAna.py ./LimitsAndPvalues/FullRun2_Unblinded_Jun15/Fit_D
 ### Making Figure 7 and 8
 
 ```
-python ttVsSigNNLegacyAna.py --year 2016 --approved --inputDir ./DataVsMC
-python ttVsSigNNLegacyAna.py --year 2017 --approved --inputDir ./DataVsMC
+python makettVsSigNNLegacyAna.py --year 2016 --approved --inputDir ./DataVsMC
+python makettVsSigNNLegacyAna.py --year 2017 --approved --inputDir ./DataVsMC
 ```
 
 ### Making Figure 9 and 10
 
 ```
-./plot_1l_LegacyAna -y 2016 -t DataVsMC -a 1 -s 1
-./plot_1l_LegacyAna -y 2017 -t DataVsMC -a 1 -s 1
+./makeStackPlotLegacyAna -y 2016 -t DataVsMC -a 1 -s 1
+./makeStackPlotLegacyAna -y 2017 -t DataVsMC -a 1 -s 1
 ```
