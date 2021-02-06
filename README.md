@@ -18,9 +18,11 @@ Input ROOT files for making data vs MC stack plots and signal vs background plot
 Once copied the `DataVsMC` folder locally to the `condor/hadded` path with `Analyzer/Analyzer/test`, plots can be made using `plot_1l_LegacyAna`.
 
 Input ROOT files for making the limit plots and p-value plots, found in the paper, as well as nuisance parameter plots, found in the paper and supplementary material are located at:
-`/eos/uscms/store/user/lpcsusyhad/StealthStop/PlotInputs/SUS19004/LimitsAndPvalues/FullRun2_Unblinded_Jun15`.
-Copy the `FullRun2_Unblinded_Jun15` folder locally.
+`/eos/uscms/store/user/lpcsusyhad/StealthStop/PlotInputs/SUS19004/LimitsAndPvalues/`.
+Copy the `LimitsAndPvalues` folder locally.
 Additionally, one can copy the `Fits` folder from `/eos/uscms/store/user/lpcsusyhad/StealthStop/PlotInputs/SUS19004/Fits`
+
+`mkdir PlotsForLegacyAna/{Paper,Supplementary}`
 
 ### Making Figure 2 of the Paper
 
@@ -45,23 +47,29 @@ Then, the plots are made by running:
 python makeFitPlotsLegacyAna.py --bkgonly --twosigfit
 ```
 
+### Making Figure 5 of the paper
+
+```
+python njetsStackLegacyAna.py --approved --inputDir ./LimitsAndPvalues/FullRun2_Unblinded_Jun15/
+```
+
 ### Making limit plots in Figure 6 of the paper
 
 ```
-root -b -l -q 'makeLimitPlotsLegacyAna.C("Jun15_2020", "./FullRun2_Unblinded_Jun15/Fit_Data_Combo/output-files/", "Combo", "RPV", true)'
-root -b -l -q 'makeLimitPlotsLegacyAna.C("Jun15_2020", "./FullRun2_Unblinded_Jun15/Fit_Data_Combo/output-files/", "Combo", "SYY", true)'
+root -b -l -q 'makeLimitPlotsLegacyAna.C("Jun15_2020", "./LimitsAndPvalues/FullRun2_Unblinded_Jun15/Fit_Data_Combo/output-files/", "Combo", "RPV", true)'
+root -b -l -q 'makeLimitPlotsLegacyAna.C("Jun15_2020", "./LimitsAndPvalues/FullRun2_Unblinded_Jun15/Fit_Data_Combo/output-files/", "Combo", "SYY", true)'
 ```
 
 ### Making p-value plots in Figure 7 of the paper
 
 ```
-python makePvaluesPlotLegacyAna.py --basedir ./FullRun2_Unblinded_Jun15/ --pdfName Jun15_2020 --approved
+python makePvaluesPlotLegacyAna.py --basedir ./LimitsAndPvalues/FullRun2_Unblinded_Jun15/ --approved 
 ```
 
 ### Making NP pulls plot in Figure 8 of the paper
 
 ```
-python makeNPplotsLegacyAna.py ./FullRun2_Unblinded_Jun15/Fit_Data_Combo/output-files/RPV_400_Combo/fitDiagnosticsComboRPV400.root --approved
+python makeNPplotsLegacyAna.py ./LimitsAndPvalues/FullRun2_Unblinded_Jun15/Fit_Data_Combo/output-files/RPV_400_Combo/fitDiagnosticsComboRPV400.root --approved
 ```
 
 ## Making Legacy Plots for SUS-19-004 Supplementary
@@ -70,6 +78,21 @@ python makeNPplotsLegacyAna.py ./FullRun2_Unblinded_Jun15/Fit_Data_Combo/output-
 
 ```
 python makeBinEdgePlotLegacyAna.py --approved
+```
+
+### Making Figure 2 of the Supplementary Material
+
+```
+./plot_1l_RocLegacyAna -y 2016
+./plot_1l_RocLegacyAna -y 2017
+
+```
+
+### Making Figure 3 of the Supplementary Material
+
+```
+python makeSNNwithWithoutGRPlotsLegacyAna.py --approved --withGR
+python makeSNNwithWithoutGRPlotsLegacyAna.py --approved
 ```
 
 ### Making NP plots for Figure 4, 5, and 6 in Supplementary
@@ -83,8 +106,8 @@ python makeNPplotsLegacyAna.py ./FullRun2_Unblinded_Jun15/Fit_Data_2018post/outp
 ### Making Figure 7 and 8 or Supplementary Material
 
 ```
-python ttVsSigNNLegacyAna.py --year 2016 --approved --inputDir ./condor/hadded/DataVsMC
-python ttVsSigNNLegacyAna.py --year 2017 --approved --inputDir ./condor/hadded/DataVsMC
+python ttVsSigNNLegacyAna.py --year 2016 --approved --inputDir ./DataVsMC
+python ttVsSigNNLegacyAna.py --year 2017 --approved --inputDir ./DataVsMC
 ```
 
 ### Making Figure 9 and 10 of Supplementary Material

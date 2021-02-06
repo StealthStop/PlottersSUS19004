@@ -28,7 +28,7 @@ ARXIV = "XXXX.XXXXX"
 SUPP = "Supplementary"
 
 parser = OptionParser(usage="usage: %prog [options] in.root  \nrun with --help to get list of options")
-parser.add_option("--approved",      dest="approved",    default=False,  action="store_true", help="Plot is approved, no preliminary")
+parser.add_option("--approved",      dest="approved",      default=False, action="store_true", help="Plot is approved, no preliminary")
 
 (options, args) = parser.parse_args()
 if len(args) == 0:
@@ -235,23 +235,34 @@ import ROOT
 ROOT.gROOT.SetStyle("Plain")
 ROOT.gStyle.SetOptFit(1)
 
-year = ""; tag = ""; supp = True
+year = ""; tag = ""; supp = True; figNameStub = "CMS-SUS-19-004_Figure-aux_"; subfig = ""; subdir = "Supplementary"
 if   "2016"     in file.GetName():
     year = "2016 (13 TeV)"
     tag = "2016"
+    subfig = "-a"
+    figNameStub = "CMS-SUS-19-004_Figure-aux_"
 elif "2017"     in file.GetName():
     year = "2017 (13 TeV)"
     tag = "2017"
+    subfig = "-b"
+    figNameStub = "CMS-SUS-19-004_Figure-aux_"
 elif "2018pre"  in file.GetName():
     year = "2018A (13 TeV)"
     tag = "2018A"
+    subfig = "-c"
+    figNameStub = "CMS-SUS-19-004_Figure-aux_"
 elif "2018post" in file.GetName():
     year = "2018B (13 TeV)"
     tag = "2018B"
+    subfig = "-d"
+    figNameStub = "CMS-SUS-19-004_Figure-aux_"
 elif "Combo"    in file.GetName():
     year = "137 fb^{-1} (13 TeV)"
     tag = "Combo"
     supp = False
+    subdir = "Paper"
+    subfig = "-a"
+    figNameStub = "Figure_008.pdf"
 
 canvas_nuis = ROOT.TCanvas("nuisances", "nuisances", 1800, 800)
 canvas_nuis.Divide(1,2); canvas_nuis.cd(1)
@@ -460,11 +471,11 @@ l.Draw("SAME")
 ROOT.gPad.SetGridx()
 
 if not options.approved:
-    canvas_nuis.SaveAs("Nuisance_Pulls_%s_prelim.pdf"%(tag))
-    canvas_nuis.SaveAs("Nuisance_Pulls_%s_prelim.png"%(tag))
+    canvas_nuis.SaveAs("PlotsForLegacyAna/%s/Nuisance_Pulls_%s_prelim.pdf"%(subdir,tag))
+    canvas_nuis.SaveAs("PlotsForLegacyAna/%s/Nuisance_Pulls_%s_prelim.png"%(subdir,tag))
 else:
-    canvas_nuis.SaveAs("Nuisance_Pulls_%s.pdf"%(tag))
-    canvas_nuis.SaveAs("Nuisance_Pulls_%s.png"%(tag))
+    canvas_nuis.SaveAs("PlotsForLegacyAna/%s/%s005%s.pdf"%(subdir,subFigStub,subfig))
+    canvas_nuis.SaveAs("PlotsForLegacyAna/%s/%s005%s.png"%(subdir,subFigStub,subfig))
 
 # Make a delta chi2 1D histo
 canvas_dchi2 = ROOT.TCanvas("dchi2_c", "dchi2_c", 1200, 1200)
@@ -526,11 +537,11 @@ meta.DrawLatex(ROOT.gPad.GetLeftMargin() + 0.05, 1 - ROOT.gPad.GetTopMargin() - 
 meta.DrawLatex(ROOT.gPad.GetLeftMargin() + 0.05, 1 - ROOT.gPad.GetTopMargin() - 0.18, "#sum#Delta#chi^{2} = %3.2f"%(dchi2))
 
 if not options.approved:
-    canvas_dchi2.SaveAs("dChi2_Dist_%s_prelim.pdf"%(tag))
-    canvas_dchi2.SaveAs("dChi2_Dist_%s_prelim.png"%(tag))
+    canvas_dchi2.SaveAs("PlotsForLegacyAna/%s/dChi2_Dist_%s_prelim.pdf"%(subdir,tag))
+    canvas_dchi2.SaveAs("PlotsForLegacyAna/%s/dChi2_Dist_%s_prelim.png"%(subdir,tag))
 else:
-    canvas_dchi2.SaveAs("dChi2_Dist_%s.pdf"%(tag))
-    canvas_dchi2.SaveAs("dChi2_Dist_%s.png"%(tag))
+    canvas_dchi2.SaveAs("PlotsForLegacyAna/%s/%s006%s.pdf"%(subdir,subFigStub,subfig))
+    canvas_dchi2.SaveAs("PlotsForLegacyAna/%s/%s006%s.png"%(subdir,subFigStub,subfig))
 
 # Make a chi2 1D histo for b and s+b fits
 canvas_chi2 = ROOT.TCanvas("chi2_c", "chi2_c", 1200, 1200)
@@ -600,8 +611,12 @@ meta.DrawLatex(ROOT.gPad.GetLeftMargin() + 0.05, 1 - ROOT.gPad.GetTopMargin() - 
 meta.DrawLatex(ROOT.gPad.GetLeftMargin() + 0.05, 1 - ROOT.gPad.GetTopMargin() - 0.32, "#sum#chi^{2} = %3.2f"%(sbchi2))
 
 if not options.approved:
-    canvas_chi2.SaveAs("Chi2_Dist_%s_prelim.pdf"%(tag))
-    canvas_chi2.SaveAs("Chi2_Dist_%s_prelim.png"%(tag))
+    canvas_chi2.SaveAs("PlotsForLegacyAna/%s/Chi2_Dist_%s_prelim.pdf"%(subdir,tag))
+    canvas_chi2.SaveAs("PlotsForLegacyAna/%s/Chi2_Dist_%s_prelim.png"%(subdir,tag))
 else:
-    canvas_chi2.SaveAs("Chi2_Dist_%s.pdf"%(tag))
-    canvas_chi2.SaveAs("Chi2_Dist_%s.png"%(tag))
+    if supp:
+        canvas_chi2.SaveAs("PlotsForLegacyAna/%s/%s007%s.pdf"%(subdir,subFigStub,subfig))
+        canvas_chi2.SaveAs("PlotsForLegacyAna/%s/%s007%s.png"%(subdir,subFigStub,subfig))
+    else:
+        canvas_chi2.SaveAs("PlotsForLegacyAna/%s/%s.pdf"%(subdir,subFigStub))
+        canvas_chi2.SaveAs("PlotsForLegacyAna/%s/%s.png"%(subdir,subFigStub))

@@ -124,34 +124,35 @@ def main() :
             ROOT.gPad.RedrawAxis()
     
             #Draw the TText for the naming of the NN bin. Size and location is dependent on border size
-            ttext                       = ROOT.TText()
-    
+            ttext                       = ROOT.TLatex()
             if itBin == 0:
-                ttext.SetTextSize( 0.08*pad2and3Size/pad1and4Size )
-                ttext.DrawTextNDC( ROOT.gPad.GetLeftMargin() + 0.1, fitHistArray[itBin].GetMaximum()/5.0, textArray[itBin] )
-            
+                ttext.SetTextSize( 0.099*pad2and3Size/pad1and4Size )
+                ttext.DrawLatex( ROOT.gPad.GetLeftMargin() + 0.1, fitHistArray[itBin].GetMaximum()/5.0, textArray[itBin] )
             elif itBin == len(snnBinList) - 1 :
-                ttext.SetTextSize( 0.08*pad2and3Size/pad1and4Size )
-                ttext.DrawTextNDC( ROOT.gPad.GetLeftMargin() + 0.3, fitHistArray[itBin].GetMaximum()/5.0, textArray[itBin] )
-            
+                ttext.SetTextSize( 0.105*pad2and3Size/pad1and4Size )
+                ttext.DrawLatex( ROOT.gPad.GetLeftMargin() + 0.3, fitHistArray[itBin].GetMaximum()/5.0, textArray[itBin] )
             else:
-                ttext.SetTextSize( 0.07 )
-                ttext.DrawTextNDC( ROOT.gPad.GetLeftMargin() + 0.3, fitHistArray[itBin].GetMaximum()/5.0, textArray[itBin] )
-    
+                ttext.SetTextSize( 0.095 )
+                ttext.DrawLatex( ROOT.gPad.GetLeftMargin() + 0.3, fitHistArray[itBin].GetMaximum()/5.0, textArray[itBin] ) 
+
             #Add CMS Preliminary (work in progress)
             mark                        = ROOT.TLatex()
             mark.SetNDC( ROOT.kTRUE )
             mark.SetTextAlign( 11 )
 
-            yearText = ""
+            yearText = ""; filename = ""
             if year == "Combo16" :
                 yearText = "2016"
+                filename = "Figure_004-a.pdf"
             if year == "Combo17" :
                 yearText = "2017"
+                filename = "Figure_004-b.pdf"
             if year == "Combo18pre" :
                 yearText = "2018A"
+                filename = "Figure_004-c.pdf"
             if year == "Combo18post" :
                 yearText = "2018B" 
+                filename = "Figure_004-d.pdf"
 
             if itBin == 0 :
                 mark.SetTextSize( 0.065*pad1and4Size/pad2and3Size )
@@ -250,7 +251,7 @@ def main() :
             
             c1.Update()
     
-        c1.SaveAs("RPV"+args.mass1+year+fitType+"_fitPlots.pdf")
+        c1.SaveAs("PlotsForLegacyAna/Paper/%s"%(filename))
 
 def SetEx(  inputTGraphAsymmErrors, uniformErrSize ):
     nPoints = inputTGraphAsymmErrors.GetN()
@@ -279,7 +280,7 @@ def makeDummyPullHistograms():
     dummyPullHist_D4.GetYaxis().SetRangeUser( -3.5, 3.5 )
     dummyPullHist.SetMinimum( -3.5 )
     dummyPullHist.SetMaximum( 3.5 )
-    dummyPullHist_D4.SetXTitle( "Number of jets" )
+    dummyPullHist_D4.SetXTitle( "N_{jets}" )
     dummyPullHist_D4.SetTitleSize( 0.175, "x" )
     dummyPullHist_D4.SetLabelOffset( 0.025, "x" )
     dummyPullHist_D4.SetLabelSize( 0.24, "x" )

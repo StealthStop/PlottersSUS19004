@@ -18,14 +18,14 @@ parser.add_option( '-i', '--inputFileName', action = 'store',
 
 parser.add_option( '-o', '--outputDirName', action = 'store', 
                     dest = 'outputDirName', type = 'string', 
-                    default = 'Figure3', help = 'Name of output directory' )
+                    default = 'PlotsForLegacyAna/Paper/', help = 'Name of output directory' )
 
 (options, args) = parser.parse_args()
 
 
 # Define some global arrays that will be used later in the plotting script
-yearList                    = [ "2016", "2017", "2018pre", "2018post" ]
-njetList                    = [ "7j", "8j", "9j", "10j", "11j" ]
+yearList                    = [ "2016" ]
+njetList                    = [ "7j", "11j" ]
 borderSize                  = 0.25
 
 def main() :
@@ -101,7 +101,8 @@ def main() :
             newMark.DrawLatex( ROOT.gPad.GetLeftMargin() + 0.045, 0.225, "N_{jets} = "+njet[0:-1] )
 
             c1.Update()
-            c1.SaveAs(outputDir+"/"+year+"_ratio_"+njet+"_qcd_cr_temp.pdf")
+            if njet == "7j": c1.SaveAs(outputDir+"/Figure_003-a.pdf")
+            else:            c1.SaveAs(outputDir+"/Figure_003-b.pdf")
 
             del dummyHist
 

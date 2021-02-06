@@ -44,7 +44,7 @@ def makeBinEdges(e, name):
         h.SetBinError(edge, 0.0)
 
     h.GetYaxis().SetTitle("S_{NN}")
-    h.GetXaxis().SetTitle("Number of Jets")
+    h.GetXaxis().SetTitle("N_{jets}")
 
     for bin in xrange(1,h.GetNbinsX()+1): h.GetXaxis().SetBinLabel(bin, binNames[bin-1])
     
@@ -56,7 +56,7 @@ def makeBinEdges(e, name):
 
     h.GetYaxis().SetLabelOffset(0.015)
 
-    h.GetXaxis().SetTitleOffset(0.8)
+    h.GetXaxis().SetTitleOffset(0.95)
     h.GetYaxis().SetTitleOffset(1.05)
 
     h.SetTitle("")
@@ -136,7 +136,7 @@ def main() :
 
     c1 = ROOT.TCanvas( "c1", "c1", 3200, 800 )
 
-    tm = 0.1; bm = 0.12; lm = 0.14; rm = 0.02
+    tm = 0.1; bm = 0.14; lm = 0.14; rm = 0.02
 
     l1 = 0.277967; l2 = 0.239052; l3 = 0.239052; l4 = 0.24393
 
@@ -204,7 +204,7 @@ def main() :
     mark.SetTextAlign(31)
     mark.SetTextSize(0.055)
     mark.SetTextFont(42)
-    mark.DrawLatex(1.0 - ROOT.gPad.GetLeftMargin() - 0.34, 1 - (ROOT.gPad.GetTopMargin() - 0.020), "arXiv:XXXX.XXXX")
+    mark.DrawLatex(1.0 - ROOT.gPad.GetLeftMargin() - 0.34, 1 - (ROOT.gPad.GetTopMargin() - 0.020), "arXiv:XXXX.XXXXX")
 
     mark.SetTextAlign(31)
     mark.SetTextSize(0.065)
@@ -276,10 +276,10 @@ def main() :
     line5.Draw("SAME")
 
     if args.approved:
-        c1.SaveAs("BinEdgesPlot.pdf")
+        c1.SaveAs("PlotsForLegacyAna/Supplementary/CMS-SUS-19-004_Figure-aux_001.pdf")
     else:
-        c1.SaveAs("BinEdgesPlot_prelim.pdf")
-        c1.SaveAs("BinEdgesPlot_prelim.png")
+        c1.SaveAs("PlotsForLegacyAna/Supplementary/BinEdgesPlot_prelim.pdf")
+        c1.SaveAs("PlotsForLegacyAna/Supplementary/BinEdgesPlot_prelim.png")
 
 if __name__ == "__main__" :
     main()

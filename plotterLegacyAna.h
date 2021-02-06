@@ -35,7 +35,7 @@ public:
     Plotter(HistInfoCollection&& hc, const std::string& outpath = "outputPlots") : hc_(hc), outpath_(outpath){}
     Plotter(std::map< std::string, HistInfoCollection >&& mhc, const std::string& outpath = "outputPlots") : mhc_(mhc), outpath_(outpath){}
 
-    void plotStack(const std::string& histName, const std::string& xAxisLabel, const std::string& yAxisLabel = "Events", const bool isLogY = false, int rebin = -1, const bool scale = false, const bool doFill = true, const double xmin = 999.9, const double xmax = -999.9, double lumi = 36100, bool supplementary = false, bool approved = true, double padDiv = 0.3)
+    void plotStack(const std::string& histName, const std::string& figName, const std::string& xAxisLabel, const std::string& yAxisLabel = "Events", const bool isLogY = false, int rebin = -1, const bool scale = false, const bool doFill = true, const double xmin = 999.9, const double xmax = -999.9, double lumi = 36100, bool supplementary = false, bool approved = true, double padDiv = 0.3)
     {
         //This is a magic incantation to disassociate opened histograms from their files so the files can be closed
         TH1::AddDirectory(false);
@@ -246,9 +246,9 @@ public:
 
         //save new plot to file
         if (not approved) {
-            c->Print((outpath_ + "/" + histName + "_prelim.pdf").c_str());
+            c->Print((outpath_ + "/" + figName + "_prelim.pdf").c_str());
         } else {
-            c->Print((outpath_ + "/" + histName + ".pdf").c_str());
+            c->Print((outpath_ + "/" + figName + ".pdf").c_str());
         }
 
         //clean up dynamic memory
@@ -279,7 +279,7 @@ public:
         
         gpThreshMax = std::max(gpThreshMax, pThreshMax);
         if (isLog) gmax = 10*std::max(gmax, max);
-        else gmax = 1.06*std::max(gmax, max);
+        else gmax = 1.08*std::max(gmax, max);
         gmin = std::min(gmin, min);
     }
 
@@ -342,7 +342,7 @@ public:
         if (supplementary)
         {
             mark.SetTextSize(0.04);
-            mark.DrawLatex(gPad->GetLeftMargin() + 0.24, 1 - (gPad->GetTopMargin() + 0.055), "arXiv XXXX.XXXX");
+            mark.DrawLatex(gPad->GetLeftMargin() + 0.26, 1 - (gPad->GetTopMargin() + 0.055), "arXiv XXXX.XXXXX");
         }
     }    
 };
