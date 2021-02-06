@@ -6,6 +6,9 @@ Get a release of CMSSW
 cmsrel CMSSW_10_2_5
 cd CMSSW_10_2_5/src
 cmsenv
+
+https://github.com/StealthStop/PlottersSUS19004
+cd PlottersSUS19004
 ```
 
 Then run `make` to compile the `makeStackPlotLegacyAna.C` and `makeRocPlotLegacyAna.C` scripts
