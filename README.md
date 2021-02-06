@@ -89,7 +89,6 @@ python makeBinEdgePlotLegacyAna.py --approved
 ```
 ./plot_1l_RocLegacyAna -y 2016
 ./plot_1l_RocLegacyAna -y 2017
-
 ```
 
 ### Making Figure 3 of the Supplementary Material
