@@ -277,6 +277,7 @@ def main() :
 
     if args.approved:
         c1.SaveAs("PlotsForLegacyAna/Supplementary/CMS-SUS-19-004_Figure-aux_001.pdf")
+        c1.SaveAs("PlotsForLegacyAna/Supplementary/CMS-SUS-19-004_Figure-aux_001.png")
     else:
         c1.SaveAs("PlotsForLegacyAna/Supplementary/BinEdgesPlot_prelim.pdf")
         c1.SaveAs("PlotsForLegacyAna/Supplementary/BinEdgesPlot_prelim.png")

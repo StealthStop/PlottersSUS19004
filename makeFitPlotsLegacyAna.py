@@ -14,11 +14,11 @@ parser.add_argument( '--twosigfit', action = 'store_true', dest = 'twosigfit', d
 parser.add_argument( '--bkgonlyfit', action = 'store_true', dest = 'bkgonlyfit', default = False, help = 'Plot background only fit results' )
 parser.add_argument( '--compshapes', action = 'store_true', dest = 'compshapes', default = False, help = 'Plot individual shapes of bkgds' )
 parser.add_argument( '--mass1', dest = 'mass1', default = "450", help = 'Set mass for first reference signal' )
-parser.add_argument( '--mass2', dest = 'mass2', default = "600", help = 'Set mass for second reference signal' )
+parser.add_argument( '--mass2', dest = 'mass2', default = "850", help = 'Set mass for second reference signal' )
 parser.add_argument( '--model1', dest = 'model1', default = "RPV", help = 'Set model for first reference signal' )
 parser.add_argument( '--model2', dest = 'model2', default = "SYY", help = 'Set model for second reference signal' )
 
-parser.add_argument( '--path', dest = 'path', default=".", help = 'Input path' )
+parser.add_argument( '--path', dest = 'path', default="./Fits/", help = 'Input path' )
 
 args = parser.parse_args()
 

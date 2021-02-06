@@ -11,9 +11,11 @@ def main(approved, year, withGR):
     if withGR: fName = "Training/Keras_Tensorflow_%s_v1.2/deepESMbin_dis_nJet.npy"%(year)
     else:      fName = "Training/Keras_Tensorflow_%s_v1.2/noGR/deepESMbin_dis_nJet.npy"%(year)
 
-    outName = None 
-    if withGR: outName = "WithGR2016.pdf"
-    else:      outName = "WithoutGR2016.pdf"
+    outName = None
+    if withGR:
+        outName = "CMS-SUS-19-004_Figure-aux_003-b"
+    else:
+        outName = "CMS-SUS-19-004_Figure-aux_003-a"
 
     data = np.load(fName, allow_pickle=True, encoding='latin1').item()
     prefix = ""
@@ -85,7 +87,8 @@ def main(approved, year, withGR):
     mark.SetTextFont(42)
     mark.DrawLatex(ROOT.gPad.GetLeftMargin() + 0.03, 1 - (ROOT.gPad.GetTopMargin() + 0.055), "arXiv:XXXX.XXXXX")
     
-    c1.SaveAs(outName)
+    c1.SaveAs(outName + ".pdf")
+    c1.SaveAs(outName + ".png")
 
 if __name__ == "__main__" :
     usage = "usage: %prog [options]"

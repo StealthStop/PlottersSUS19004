@@ -68,7 +68,7 @@ int main(int argc, char *argv[])
 
     int opt, option_index = 0;    
     std::string year = "2018post";
-    std::string directory = "";
+    std::string directory = "DataVsMC";
     int approved = 0;
     int supplementary = 0;
 

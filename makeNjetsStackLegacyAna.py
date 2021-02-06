@@ -18,7 +18,7 @@ usage = "usage: %prog [options]"
 parser = argparse.ArgumentParser(usage)
 parser.add_argument("--approved", dest="approved", help="Plot is approved",           action="store_true", default=False) 
 parser.add_argument("--sbfit",    dest="sbfit",    help="Results for s+b fit",        action="store_true", default=False)
-parser.add_argument("--inputDir", dest="inputDir", help="Input dir with fit results", type=str,            required=True)
+parser.add_argument("--inputDir", dest="inputDir", help="Input dir with fit results", type=str,            default="./LimitsAndPvalues/FullRun2_Unblinded_Jun15/")
 args = parser.parse_args()
 
 fitStr1 = "fit_b"; fitStr2 = "_bonly"

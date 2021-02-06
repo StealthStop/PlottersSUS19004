@@ -196,7 +196,7 @@ def makePValuePlot(dataSet, approved):
 
 def main():
     parser = optparse.OptionParser("usage: %prog [options]\n")
-    parser.add_option ('--basedir', dest='basedir',  type='string', default = '.', help="Path to output files")
+    parser.add_option ('--basedir', dest='basedir',  type='string', default = './LimitsAndPvalues/FullRun2_Unblinded_Jun15/', help="Path to output files")
     parser.add_option ('--approved', dest='approved', default = False, action='store_true', help = 'Is plot approved')
     options, args = parser.parse_args()
 
