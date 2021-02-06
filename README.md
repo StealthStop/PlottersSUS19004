@@ -8,23 +8,29 @@ cd CMSSW_10_2_5/src
 cmsenv
 ```
 
-Then run `make` to compile the `plot_1l_LegacyAna.C` and `plot_1l_RocLegacyAna.C` script
+Then run `make` to compile the `plot_1l_LegacyAna.C` and `plot_1l_RocLegacyAna.C` scripts
 
 ## Making Legacy Plots for SUS-19-004 Paper
 
 Input ROOT files for making the legacy plots for the paper and supplementary material are located at:
-`/eos/uscms/store/user/lpcsusyhad/StealthStop/PlotInputs/SUS19004/`
 
-Copy the following folders locally for plotting:
 ```
-DataVsMC # Fig. 2 of the paper and in Fig. 7, 8, 9, and 10 of the supplementary material
+/eos/uscms/store/user/lpcsusyhad/StealthStop/PlotInputs/SUS19004/
+```
+
+Copy from this location the following folders for plotting:
+```
+DataVsMC         # Fig. 2 of the paper and in Fig. 7, 8, 9, and 10 of the supplementary material
 LimitsAndPvalues # Fig. 6, 7, 8 of the paper and Fig. 4, 5, 6
-Fits # Fig. 4 of the paper
-Training # Fig. 2, 3 of the supplementary material
-QCDCR # Fig. 3 of the paper
+Fits             # Fig. 4 of the paper
+Training         # Fig. 2, 3 of the supplementary material
+QCDCR            # Fig. 3 of the paper
 ```
 Before continuing, make an output folder that everything will go to
-`mkdir PlotsForLegacyAna/{Paper,Supplementary}`
+
+```
+mkdir PlotsForLegacyAna/{Paper,Supplementary}
+```
 
 ### Making Figure 2 of the Paper
 
@@ -96,10 +102,10 @@ python makeSNNwithWithoutGRPlotsLegacyAna.py --approved
 ### Making NP plots for Figure 4, 5, and 6 in Supplementary
 
 ```
-python makeNPplotsLegacyAna.py ./FullRun2_Unblinded_Jun15/Fit_Data_2016/output-files/RPV_400_2016/fitDiagnostics2016RPV400.root --approved
-python makeNPplotsLegacyAna.py ./FullRun2_Unblinded_Jun15/Fit_Data_2017/output-files/RPV_400_2017/fitDiagnostics2017RPV400.root --approved
-python makeNPplotsLegacyAna.py ./FullRun2_Unblinded_Jun15/Fit_Data_2018pre/output-files/RPV_400_2018pre/fitDiagnostics2018preRPV400.root --approved
-python makeNPplotsLegacyAna.py ./FullRun2_Unblinded_Jun15/Fit_Data_2018post/output-files/RPV_400_2018post/fitDiagnostics2018postRPV400.root --approved
+python makeNPplotsLegacyAna.py ./LimitsAndPvalues/FullRun2_Unblinded_Jun15/Fit_Data_2016/output-files/RPV_400_2016/fitDiagnostics2016RPV400.root --approved
+python makeNPplotsLegacyAna.py ./LimitsAndPvalues/FullRun2_Unblinded_Jun15/Fit_Data_2017/output-files/RPV_400_2017/fitDiagnostics2017RPV400.root --approved
+python makeNPplotsLegacyAna.py ./LimitsAndPvalues/FullRun2_Unblinded_Jun15/Fit_Data_2018pre/output-files/RPV_400_2018pre/fitDiagnostics2018preRPV400.root --approved
+python makeNPplotsLegacyAna.py ./LimitsAndPvalues/FullRun2_Unblinded_Jun15/Fit_Data_2018post/output-files/RPV_400_2018post/fitDiagnostics2018postRPV400.root --approved
 ```
 ### Making Figure 7 and 8 or Supplementary Material
 
