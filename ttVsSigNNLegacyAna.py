@@ -24,26 +24,32 @@ args = parser.parse_args()
 
 inputDir = args.inputDir
 
-outpath = "./PlotsForSupplementary/"
+outpath = "./PlotsForLegacyAna/Supplementary"
 if not os.path.exists(outpath): os.makedirs(outpath)
 
 year = args.year
 
 ttf = ROOT.TFile.Open(inputDir + "/%s/%s_TT.root"%(year,year))
-sig1f = ROOT.TFile.Open(inputDir + "/%s/%s_RPV_2t6j_mStop-350.root"%(year,year))
-sig2f = ROOT.TFile.Open(inputDir + "/%s/%s_StealthSYY_2t6j_mStop-750.root"%(year,year))
+sig1f = ROOT.TFile.Open(inputDir + "/%s/%s_RPV_2t6j_mStop-450.root"%(year,year))
+sig2f = ROOT.TFile.Open(inputDir + "/%s/%s_StealthSYY_2t6j_mStop-850.root"%(year,year))
 
-histDict = {"Jet_cm_pt_1_1l_ge7j_ge1b" : {"X" : {"title" : "Leading Jet p_{T} [GeV]", "rebin" : 2}},
-           "Jet_cm_eta_1_1l_ge7j_ge1b" : {"X" : {"title" : "Leading Jet #eta", "rebin" : 1}},
-           "Jet_cm_phi_1_1l_ge7j_ge1b" : {"X" : {"title" : "Leading Jet #phi", "rebin" : 1}},
-           "Jet_cm_m_1_1l_ge7j_ge1b"   : {"X" : {"title" : "Leading Jet mass [GeV]", "rebin" : 10}},
-           "jmt_ev0_top6_1l_ge7j_ge1b" : {"X" : {"title" : "JMT0", "rebin" : 1}},
-           "jmt_ev1_top6_1l_ge7j_ge1b" : {"X" : {"title" : "JMT1", "rebin" : 1}},
-           "fwm2_top6_1l_ge7j_ge1b"    : {"X" : {"title" : "FWM2", "rebin" : 1}},
-           "fwm4_top6_1l_ge7j_ge1b"    : {"X" : {"title" : "FWM4", "rebin" : 1}}
+histDict = {"Jet_cm_pt_1_1l_ge7j_ge1b" : {"subfig" : "a", "X" : {"title" : "Leading Jet p_{T} [GeV]", "rebin" : 2}},
+           "Jet_cm_eta_1_1l_ge7j_ge1b" : {"subfig" : "b", "X" : {"title" : "Leading Jet #eta", "rebin" : 1}},
+           "Jet_cm_phi_1_1l_ge7j_ge1b" : {"subfig" : "c", "X" : {"title" : "Leading Jet #phi", "rebin" : 1}},
+           "Jet_cm_m_1_1l_ge7j_ge1b"   : {"subfig" : "d", "X" : {"title" : "Leading Jet mass [GeV]", "rebin" : 10}},
+           "jmt_ev0_top6_1l_ge7j_ge1b" : {"subfig" : "e", "X" : {"title" : "JMT0", "rebin" : 1}},
+           "jmt_ev1_top6_1l_ge7j_ge1b" : {"subfig" : "f", "X" : {"title" : "JMT1", "rebin" : 1}},
+           "fwm2_top6_1l_ge7j_ge1b"    : {"subfig" : "g", "X" : {"title" : "FWM2", "rebin" : 1}},
+           "fwm4_top6_1l_ge7j_ge1b"    : {"subfig" : "h", "X" : {"title" : "FWM4", "rebin" : 1}}
 }
 
 for name, options in histDict.iteritems():
+
+    fig = None
+    if year == "2016": fig = "007"
+    else:              fig = "008"
+
+    subfig = options["subfig"]
 
     c = ROOT.TCanvas("%s_c"%(name), "%s_c"%(name), 2400, 2400)
     tth = ttf.Get(name)
@@ -113,8 +119,8 @@ for name, options in histDict.iteritems():
     iamLegend.SetNColumns(3)
     iamLegend.SetBorderSize(2)
     
-    iamLegend.AddEntry(sig1h, "RPV m_{#tilde{t}} = 350 GeV", "F")
-    iamLegend.AddEntry(sig2h, "SYY m_{#tilde{t}} = 750 GeV", "F")
+    iamLegend.AddEntry(sig1h, "RPV m_{#tilde{t}} = 450 GeV", "F")
+    iamLegend.AddEntry(sig2h, "SYY m_{#tilde{t}} = 850 GeV", "F")
     iamLegend.AddEntry(tth,   "t#bar{t}", "F")
 
     tth.SetTitle("")
@@ -147,7 +153,7 @@ for name, options in histDict.iteritems():
     mark.SetTextAlign(11)
     mark.SetTextSize(0.025)
     mark.SetTextFont(42)
-    mark.DrawLatex(ROOT.gPad.GetLeftMargin() + 0.63, 1 - (ROOT.gPad.GetTopMargin() + 0.05), "arXiv:XXXX.XXXX")
+    mark.DrawLatex(ROOT.gPad.GetLeftMargin() + 0.04, 1 - (ROOT.gPad.GetTopMargin() + 0.09), "arXiv:XXXX.XXXXX")
 
     mark.SetTextSize(0.045);
     mark.SetTextFont(42)
@@ -158,8 +164,8 @@ for name, options in histDict.iteritems():
         mark.DrawLatex(1 - ROOT.gPad.GetRightMargin(), 1 - (ROOT.gPad.GetTopMargin() - 0.015), "2017 (13 TeV)")
   
     if args.approved:
-        c.SaveAs("%s/%s_%s.pdf"%(outpath,year,name.replace("_1l_ge7j_ge1b", "")))
-        c.SaveAs("%s/%s_%s.png"%(outpath,year,name.replace("_1l_ge7j_ge1b", "")))
+        c.SaveAs("%s/CMS-SUS-19-004_Figure-aux_%s-%s.pdf"%(outpath,fig,subfig))
+        c.SaveAs("%s/CMS-SUS-19-004_Figure-aux_%s-%s.png"%(outpath,fig,subfig))
     else:
         c.SaveAs("%s/%s_%s_prelim.pdf"%(outpath,year,name.replace("_1l_ge7j_ge1b", "")))
         c.SaveAs("%s/%s_%s_prelim.png"%(outpath,year,name.replace("_1l_ge7j_ge1b", "")))

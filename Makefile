@@ -24,7 +24,7 @@ INCLUDESDIRS  += $(shell root-config --cflags)
 # ROOT libraries
 LIBS          += $(shell root-config --glibs)
 
-PROGRAMS = plot_1l_LegacyAna
+PROGRAMS = plot_1l_LegacyAna plot_1l_RocLegacyAna
 
 all: mkobj $(PROGRAMS)
 
@@ -40,6 +40,9 @@ endef
 $(foreach DIR,$(SRC_DIR),$(foreach EXT,$(SRC_EXT),$(eval $(call compile_rule,$(DIR),$(EXT)))))
 
 plot_1l_LegacyAna: $(ODIR)/plot_1l_LegacyAna.o
+	$(LD) $^ $(LIBS) -o $@
+
+plot_1l_RocLegacyAna: $(ODIR)/plot_1l_RocLegacyAna.o
 	$(LD) $^ $(LIBS) -o $@
 
 # Unlink SusyAnaTools soft link and remove obj directory 

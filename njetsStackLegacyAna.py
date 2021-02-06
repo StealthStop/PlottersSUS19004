@@ -28,7 +28,7 @@ if args.sbfit:
 
 inputDir = args.inputDir
 
-outpath = "./PlotsForPaper/"
+outpath = "./PlotsForLegacyAna/Paper/"
 if not os.path.exists(outpath): os.makedirs(outpath)
 
 yearFile = {"2016" : {}, "2017" : {}, "2018pre" : {}, "2018post" : {}}
@@ -49,9 +49,9 @@ aliases = {"TT"     : "t#bar{t}    ",
            "TTX"    : "t#bar{t} + X   ",
            "OTHER"  : "Other   ",
            "SIG"    : "Fit Signal",
-           "SIG1"   : "RPV m_{ #tilde{t}} = 350 GeV",
-           "SIG2"   : "RPV m_{ #tilde{t}} = 850 GeV",
-           "SIG3"   : "Stealth SYY m_{ #tilde{t}} = 350 GeV",
+           "SIG1"   : "RPV m_{ #tilde{t}} = 450 GeV",
+           #"SIG2"   : "RPV m_{ #tilde{t}} = 850 GeV",
+           #"SIG3"   : "Stealth SYY m_{ #tilde{t}} = 350 GeV",
            "SIG4"   : "Stealth SYY m_{ #tilde{t}} = 850 GeV"
      
 }
@@ -64,10 +64,10 @@ procDictionary = {
                    "DATA"  : {"graph" : 0, "h" : 0, "lstyle" : 0, "lsize" : 5, "msize" : 5, "color" : ROOT.kBlack},
                    "SYST"  : {"graph" : 0, "h" : 0, "lstyle" : 0, "lsize" : 0, "msize" : 0, "color" : ROOT.kBlack},
                    "SIG"   : {"graph" : 0, "h" : 0, "lstyle" : 0, "lsize" : 0, "msize" : 0, "color" : ROOT.kGray+1},
-                   "SIG1"  : {"graph" : 0, "h" : 0, "lstyle" : 2, "lsize" : 4, "msize" : 0, "color" : ROOT.kMagenta},
-                   "SIG2"  : {"graph" : 0, "h" : 0, "lstyle" : 3, "lsize" : 4, "msize" : 0, "color" : ROOT.kRed},
-                   "SIG3"  : {"graph" : 0, "h" : 0, "lstyle" : 1, "lsize" : 4, "msize" : 0, "color" : ROOT.kCyan+1},
-                   "SIG4"  : {"graph" : 0, "h" : 0, "lstyle" : 4, "lsize" : 4, "msize" : 0, "color" : ROOT.kBlue}
+                   "SIG1"  : {"graph" : 0, "h" : 0, "lstyle" : 2, "lsize" : 4, "msize" : 0, "color" : ROOT.kRed},
+                   #"SIG2"  : {"graph" : 0, "h" : 0, "lstyle" : 4, "lsize" : 4, "msize" : 0, "color" : ROOT.kCyan+1},
+                   #"SIG3"  : {"graph" : 0, "h" : 0, "lstyle" : 2, "lsize" : 4, "msize" : 0, "color" : ROOT.kGray},
+                   "SIG4"  : {"graph" : 0, "h" : 0, "lstyle" : 9, "lsize" : 4, "msize" : 0, "color" : ROOT.kCyan+1}
 }
 
 mvaDictionary = {"D1" : copy.deepcopy(procDictionary),
@@ -99,7 +99,7 @@ for year, mvaDict in theDictionary.iteritems():
             if   process == "SIG1":
                 path = "shapes_prefit/%s/total_signal"%(mva)
 
-                d["h"] = yearFile[year]["350"].Get(path); d["h"].SetDirectory(0); d["h"].SetName("%s_%s_RPV350"%(year,mva))
+                d["h"] = yearFile[year]["350"].Get(path); d["h"].SetDirectory(0); d["h"].SetName("%s_%s_RPV450"%(year,mva))
 
             elif process == "SIG2":
                 path = "shapes_prefit/%s/total_signal"%(mva)
@@ -191,7 +191,7 @@ for year, d in yearFile.iteritems():
         f.Close()
 
 for mva in mvaBins:
-    for process in ["TTX", "OTHER", "QCD", "TT", "DATA", "SYST", "SIG", "SIG1", "SIG2", "SIG3", "SIG4"]:
+    for process in ["TTX", "OTHER", "QCD", "TT", "DATA", "SYST", "SIG", "SIG1", "SIG4"]:
         for year in ["2016", "2017", "2018pre", "2018post"]:
 
             histo = "h"
@@ -325,7 +325,7 @@ for mva in mvaBins:
     sigLegend.SetBorderSize(2)
 
     for process in ["TTX", "OTHER", "QCD", "TT"]: iamLegend.AddEntry(perMVADictionary[mva][process]["h"], aliases[process], "F")
-    for process in ["SIG1", "SIG2", "SIG3", "SIG4"]: sigLegend.AddEntry(perMVADictionary[mva][process]["h"], aliases[process], "L")
+    for process in ["SIG1", "SIG4"]: sigLegend.AddEntry(perMVADictionary[mva][process]["h"], aliases[process], "L")
 
     iamLegend.AddEntry(perMVADictionary[mva]["DATA"]["h"], "Data", "EP")
 
@@ -346,8 +346,8 @@ for mva in mvaBins:
     perMVADictionary[mva]["DATA"]["h"].Draw("E0P SAME")
     perMVADictionary[mva]["SYST"]["graph"].Draw("2SAME")
     perMVADictionary[mva]["SIG1"]["h"].Draw("SAME")
-    perMVADictionary[mva]["SIG2"]["h"].Draw("SAME")
-    perMVADictionary[mva]["SIG3"]["h"].Draw("SAME")
+    #perMVADictionary[mva]["SIG2"]["h"].Draw("SAME")
+    #perMVADictionary[mva]["SIG3"]["h"].Draw("SAME")
     perMVADictionary[mva]["SIG4"]["h"].Draw("SAME")
 
     iamLegend.Draw("SAME")
@@ -389,7 +389,7 @@ for mva in mvaBins:
 
     totalRatio.GetYaxis().SetRangeUser(-1.09, 1.09)
     totalRatio.SetTitle("")
-    totalRatio.GetXaxis().SetTitle("Number of jets")
+    totalRatio.GetXaxis().SetTitle("N_{jets}")
     totalRatio.GetYaxis().SetNdivisions(5, 5, 0)
     totalRatio.GetYaxis().SetTitle("Data / Pred.")
     totalRatio.GetYaxis().SetTitleSize(dummy1.GetYaxis().GetTitleSize()*PadFactor)
@@ -422,7 +422,7 @@ for process in ["SIG", "TTX", "OTHER", "QCD", "TT"]:
     totalBkgdAll.Add(run2Dictionary[process]["h"])
     theStackAll.Add(run2Dictionary[process]["h"])
 
-for process in ["SIG1", "SIG2", "SIG3", "SIG4"]:
+for process in ["SIG1", "SIG4"]:
     sigLegend.AddEntry(run2Dictionary[process]["h"], aliases[process], "L")
 
 mcy = ROOT.Double(0.0)
@@ -464,7 +464,7 @@ sigLegend.SetNColumns(2)
 sigLegend.SetBorderSize(2)
 
 for process in ["TT", "TTX", "OTHER", "QCD"]: iamLegend.AddEntry(run2Dictionary[process]["h"], aliases[process], "F") 
-for process in ["SIG1", "SIG3", "SIG2", "SIG4"]: sigLegend.AddEntry(run2Dictionary[process]["h"], aliases[process], "L")
+for process in ["SIG1", "SIG4"]: sigLegend.AddEntry(run2Dictionary[process]["h"], aliases[process], "L")
 
 iamLegend.AddEntry(run2Dictionary["DATA"]["h"], "Data", "EP")
 
@@ -476,7 +476,7 @@ dummy1.GetXaxis().SetTitleSize(0.07)
 dummy1.GetYaxis().SetLabelSize(0.06)
 dummy1.GetXaxis().SetLabelSize(0.06)
 dummy1.GetYaxis().SetTitleOffset(1.1)
-dummy1.GetXaxis().SetTitleOffset(2.1)
+dummy1.GetXaxis().SetTitleOffset(2.3)
 dummy1.SetMaximum(2e8)
 dummy1.SetMinimum(5)
 
@@ -485,8 +485,6 @@ theStackAll.Draw("SAME")
 run2Dictionary["DATA"]["h"].Draw("E0P SAME")
 run2Dictionary["SYST"]["graph"].Draw("2SAME")
 run2Dictionary["SIG1"]["h"].Draw("SAME")
-run2Dictionary["SIG2"]["h"].Draw("SAME")
-run2Dictionary["SIG3"]["h"].Draw("SAME")
 run2Dictionary["SIG4"]["h"].Draw("SAME")
 
 iamLegend.Draw("SAME")
@@ -521,7 +519,7 @@ for i in xrange(1, totalRatioAll.GetNbinsX()+1):
 
 totalRatioAll.GetYaxis().SetRangeUser(0.91,1.09)
 totalRatioAll.SetTitle("")
-totalRatioAll.GetXaxis().SetTitle("Number of jets")
+totalRatioAll.GetXaxis().SetTitle("N_{jets}")
 totalRatioAll.GetYaxis().SetNdivisions(5, 5, 0)
 totalRatioAll.GetYaxis().SetTitle("Data / Pred.")
 totalRatioAll.GetYaxis().SetTitleSize(dummy1.GetYaxis().GetTitleSize()*PadFactor)
@@ -538,6 +536,6 @@ totalRatioAll.Draw("E0P")
 systRatioAll.Draw("2SAME")
 
 if args.approved:
-    cAll.SaveAs("%s/njets_DataVsMC_%s.pdf"%(outpath,fitStr1))
+    cAll.SaveAs("%s/Figure_005.pdf"%(outpath))
 else:
     cAll.SaveAs("%s/njets_DataVsMC_%s_prelim.pdf"%(outpath,fitStr1))

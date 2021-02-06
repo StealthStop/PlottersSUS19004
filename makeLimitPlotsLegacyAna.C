@@ -33,7 +33,6 @@ void makeLimitPlotsLegacyAna(const string today = "Jan17_2019", const string fil
 
     // For the Pad:
     tdrStyle->SetPadBorderMode(0);
-    // tdrStyle->SetPadBorderSize(Width_t size = 1);
     tdrStyle->SetPadColor(kWhite);
     tdrStyle->SetPadGridX(false);
     tdrStyle->SetPadGridY(false);
@@ -51,18 +50,11 @@ void makeLimitPlotsLegacyAna(const string today = "Jan17_2019", const string fil
     tdrStyle->SetFrameLineWidth(1);
   
     // For the histo:
-    // tdrStyle->SetHistFillColor(1);
-    // tdrStyle->SetHistFillStyle(0);
     tdrStyle->SetHistLineColor(1);
     tdrStyle->SetHistLineStyle(0);
     tdrStyle->SetHistLineWidth(1);
-    // tdrStyle->SetLegoInnerR(Float_t rad = 0.5);
-    // tdrStyle->SetNumberContours(Int_t number = 20);
 
     tdrStyle->SetEndErrorSize(2);
-    // tdrStyle->SetErrorMarker(20);
-    //tdrStyle->SetErrorX(0.);
-  
     tdrStyle->SetMarkerStyle(20);
 
     //For the fit/function:
@@ -74,8 +66,6 @@ void makeLimitPlotsLegacyAna(const string today = "Jan17_2019", const string fil
 
     //For the date:
     tdrStyle->SetOptDate(0);
-    // tdrStyle->SetDateX(Float_t x = 0.01);
-    // tdrStyle->SetDateY(Float_t y = 0.01);
 
     // For the statistics box:
     tdrStyle->SetOptFile(0);
@@ -88,9 +78,6 @@ void makeLimitPlotsLegacyAna(const string today = "Jan17_2019", const string fil
     tdrStyle->SetStatBorderSize(1);
     tdrStyle->SetStatH(0.1);
     tdrStyle->SetStatW(0.15);
-    // tdrStyle->SetStatStyle(Style_t style = 1001);
-    // tdrStyle->SetStatX(Float_t x = 0);
-    // tdrStyle->SetStatY(Float_t y = 0);
 
     // Margins:
     tdrStyle->SetPadTopMargin(0.05);
@@ -106,33 +93,21 @@ void makeLimitPlotsLegacyAna(const string today = "Jan17_2019", const string fil
     tdrStyle->SetTitleTextColor(1);
     tdrStyle->SetTitleFillColor(10);
     tdrStyle->SetTitleFontSize(0.05);
-    // tdrStyle->SetTitleH(0); // Set the height of the title box
-    // tdrStyle->SetTitleW(0); // Set the width of the title box
-    // tdrStyle->SetTitleX(0); // Set the position of the title box
-    // tdrStyle->SetTitleY(0.985); // Set the position of the title box
-    // tdrStyle->SetTitleStyle(Style_t style = 1001);
-    // tdrStyle->SetTitleBorderSize(2);
 
     // For the axis titles:
-
     tdrStyle->SetTitleColor(1, "XYZ");
     tdrStyle->SetTitleFont(42, "XYZ");
     tdrStyle->SetTitleSize(0.06, "XYZ");
-    // tdrStyle->SetTitleXSize(Float_t size = 0.02); // Another way to set the size?
-    // tdrStyle->SetTitleYSize(Float_t size = 0.02);
     tdrStyle->SetTitleXOffset(0.9);
     tdrStyle->SetTitleYOffset(1.25);
-    // tdrStyle->SetTitleOffset(1.1, "Y"); // Another way to set the Offset
   
     // For the axis labels:
-
     tdrStyle->SetLabelColor(1, "XYZ");
     tdrStyle->SetLabelFont(42, "XYZ");
     tdrStyle->SetLabelOffset(0.007, "XYZ");
     tdrStyle->SetLabelSize(0.05, "XYZ");
 
     // For the axis:
-
     tdrStyle->SetAxisColor(1, "XYZ");
     tdrStyle->SetStripDecimals(kTRUE);
     tdrStyle->SetTickLength(0.03, "XYZ");
@@ -158,8 +133,8 @@ void makeLimitPlotsLegacyAna(const string today = "Jan17_2019", const string fil
 
     // Settings for CMS_lumi macro
     if (!approved) writeExtraText = true;
-    extraText = "Preliminary";
-    iPeriod = 4;    // 1=7TeV, 2=8TeV, 3=7+8TeV, 7=7+8+13TeV 
+    string extraText = "Preliminary";
+    int iPeriod = 4;    // 1=7TeV, 2=8TeV, 3=7+8TeV, 7=7+8+13TeV 
     if     (year=="2016")      lumi_13TeV = "35.9 fb^{-1}";
     else if(year=="2017")      lumi_13TeV = "41.5 fb^{-1}";
     else if(year=="2018pre")   lumi_13TeV = "21.1 fb^{-1}";
@@ -172,22 +147,9 @@ void makeLimitPlotsLegacyAna(const string today = "Jan17_2019", const string fil
     // iPos=22 : center, centered
     // mode generally : 
     //   iPos = 10*(alignement 1/2/3) + position (1/2/3 = left/center/right)
-    iPos = 11;
+    int iPos = 11;
 
     // **** Set the following each time before running ****
-
-    //string channel = "RPV";
-    //string channel = "SYY";
-    //string channel = "StealthSHH";
-
-    //string channel = "RPVL";
-    //string channel = "SYYL";
-    //string channel = "StealthSHHL";
-
-    //string channel = "RPV2L";
-    //string channel = "SYY2L";
-    //string channel = "StealthSHH2L";
-
     string date = "Jan17_19";
     string ssave = "---------------------------------------------------------------";
     string ssave_base = "./sigBrLim_"+model+"_"+year+"_";
@@ -239,7 +201,6 @@ void makeLimitPlotsLegacyAna(const string today = "Jan17_2019", const string fil
         std::cout << fitter_file << std::endl;
         // Load the root file and read the tree and leaves
         TFile *f = new TFile(fitter_file.c_str());
-        //std::cout << f->IsZombie() << std::endl;
 
         if(f->IsZombie() ||  !f->GetListOfKeys()->Contains("limit"))
         {
@@ -301,13 +262,19 @@ void makeLimitPlotsLegacyAna(const string today = "Jan17_2019", const string fil
         sigBr1SP[i] = sigBr[i]*sigBr1SPpercent[i]/100.0;
         sigBr1SM[i] = sigBr[i]*sigBr1SMpercent[i]/100.0;
     }
+    double textSize = 0.050;
 
     bool projectingRLimitLogY = true;
     //double projectingXmin = 250, projectingXmax = 950;
     double projectingXmin = xpoints.front()-50, projectingXmax = xpoints.back()+50;
     double projectingRLimitYmin = 0.0005, projectingRLimitYmax = 100;
     std::string projectingRLimitXYtitles = ";m_{ #tilde{t}} [GeV]; 95% CL upper limit on #sigma_{#it{#tilde{t} #bar{#tilde{t}}}} [pb]";
-    ssave = ssave_base+today+"_CLs";
+    if (model == "RPV")
+    {
+        ssave = "Figure_006-a";
+    } else {
+        ssave = "Figure_006-b";
+    }
 
     std::vector<double> limits_exp(npoints,0);
     for(int n=0; n<npoints; n++)
@@ -322,55 +289,40 @@ void makeLimitPlotsLegacyAna(const string today = "Jan17_2019", const string fil
         limits_obs[n]=limits_obs[n]*sigBr[n];
     }
 
-    TPaveText* pt = nullptr;
-    if (DRAW_LOGOS) 
-    {
-        if (model=="RPV")
-            pt = new TPaveText(0.65, 0.75, 0.6, 0.95, "ndc");
-        else if (model=="SYY" or model=="StealthSHH")
-            pt = new TPaveText(0.61, 0.75, 0.56, 0.95, "ndc");
+    //TPaveText* pt = nullptr;
+    //if (DRAW_LOGOS) 
+    //{
+    //    if (model=="RPV")
+    //        pt = new TPaveText(0.65, 0.75, 0.6, 0.95, "ndc");
+    //    else if (model=="SYY" or model=="StealthSHH")
+    //        pt = new TPaveText(0.61, 0.75, 0.56, 0.95, "ndc");
 
-        pt->SetBorderSize(0);
-        pt->SetFillStyle(0);
-        pt->SetTextAlign(12);
-        pt->SetTextFont(42);
-        pt->SetTextSize(0.035);
-    } 
-    else 
-    {
-        if (model=="RPV")
-            pt = new TPaveText(0.65, 0.75, 0.6, 0.95, "ndc");
-        else if (model=="SYY" or model=="StealthSHH")
-            pt = new TPaveText(0.58, 0.75, 0.53, 0.95, "ndc");
+    //    pt->SetBorderSize(0);
+    //    pt->SetFillStyle(0);
+    //    pt->SetTextAlign(12);
+    //    pt->SetTextFont(42);
+    //    pt->SetTextSize(textSize);
+    //} 
+    //else 
+    //{
+    //    if (model=="RPV")
+    //        pt = new TPaveText(0.65, 0.75, 0.6, 0.95, "ndc");
+    //    else if (model=="SYY" or model=="StealthSHH")
+    //        pt = new TPaveText(0.58, 0.75, 0.53, 0.95, "ndc");
 
-        pt->SetBorderSize(0);
-        pt->SetFillStyle(0);
-        pt->SetTextAlign(12);
-        pt->SetTextFont(42);
-        pt->SetTextSize(0.035);
-    }
+    //    pt->SetBorderSize(0);
+    //    pt->SetFillStyle(0);
+    //    pt->SetTextAlign(12);
+    //    pt->SetTextFont(42);
+    //    pt->SetTextSize(textSize);
+    //}
 
-    if (model=="RPV")
-        pt->AddText("pp #rightarrow #tilde{t} #bar{#tilde{t}}, #tilde{t} #rightarrow t #tilde{#chi}^{0}_{1},  #tilde{#chi}^{0}_{1} #rightarrow jjj");
-    else if (model=="SYY")
-        pt->AddText("pp #rightarrow #tilde{t} #bar{#tilde{t}}, #tilde{t} #rightarrow t#tilde{S}g, #tilde{S} #rightarrow S#tilde{G}, S #rightarrow gg");
-    else if (model=="StealthSHH")
-        pt->AddText("pp #rightarrow #tilde{t} #bar{#tilde{t}}, #tilde{t} #rightarrow t#tilde{S}, #tilde{S} #rightarrow S#tilde{G}, S #rightarrow b#bar{b}");
-
-    // if (channel=="RPV")
-    //   pt->AddText("pp #rightarrow #tilde{t}#tilde{t} #rightarrow (t #tilde{#chi}^{0}_{1})(t #tilde{#chi}^{0}_{1}) #rightarrow (t jjj)(t jjj)");
-    // else if (channel=="RPVL")
-    //   pt->AddText("pp #rightarrow #tilde{t}#tilde{t} #rightarrow (t #tilde{#chi}^{0}_{1})(t #tilde{#chi}^{0}_{1}) #rightarrow (t jjj)(t jjj), Lepton");
-    // else if (channel=="RPV2L")
-    //   pt->AddText("pp #rightarrow #tilde{t}#tilde{t} #rightarrow (t #tilde{#chi}^{0}_{1})(t #tilde{#chi}^{0}_{1}) #rightarrow (t jjj)(t jjj), 2 Leptons");
-    // else if (channel=="SYY")
-    //   pt->AddText("pp #rightarrow #tilde{t}#tilde{t}, SYY coupling");
-    // else if (channel=="SYYL")
-    //   pt->AddText("pp #rightarrow #tilde{t}#tilde{t}, SYY coupling, Lepton");
-    // else if (channel=="StealthSHH")
-    //   pt->AddText("pp #rightarrow #tilde{t}#tilde{t}, StealthSHH coupling");
-    // else if (channel=="StealthSHHL")
-    //   pt->AddText("pp #rightarrow #tilde{t}#tilde{t}, StealthSHH coupling, Lepton");
+    //if (model=="RPV")
+    //    pt->AddText("pp #rightarrow #tilde{t} #bar{#tilde{t}}, #tilde{t} #rightarrow t #tilde{#chi}^{0}_{1},  #tilde{#chi}^{0}_{1} #rightarrow jjj");
+    //else if (model=="SYY")
+    //    pt->AddText("pp #rightarrow #tilde{t} #bar{#tilde{t}}, #tilde{t} #rightarrow t#tilde{S}g, #tilde{S} #rightarrow S#tilde{G}, S #rightarrow gg");
+    //else if (model=="StealthSHH")
+    //    pt->AddText("pp #rightarrow #tilde{t} #bar{#tilde{t}}, #tilde{t} #rightarrow t#tilde{S}, #tilde{S} #rightarrow S#tilde{G}, S #rightarrow b#bar{b}");
 
     std::cout << "npoints = " << npoints << std::endl;
     for (int n=0; n<npoints; n++)
@@ -384,9 +336,6 @@ void makeLimitPlotsLegacyAna(const string today = "Jan17_2019", const string fil
         std::cout << "xpoints = "    << xpoints[n]    << std::endl;
         std::cout << std::endl;
     }
-
-    // PlotWithBelts lb(limits_m1s, limits_p1s, limits_m2s, limits_p2s,limits_exp, limits_obs, npoints, xpoints, ssave+"_1", pt, projectingXmin, projectingXmax, projectingRLimitYmin, projectingRLimitYmax, projectingRLimitLogY, projectingRLimitXYtitles);
-    //lb.plot();
 
     TCanvas *cCanvas = new TCanvas(ssave.c_str(),"Canvas");
     TString stmp = "hframe"; stmp += ssave;
@@ -447,97 +396,79 @@ void makeLimitPlotsLegacyAna(const string today = "Jan17_2019", const string fil
         grObs->SetLineColor(kBlack);
         grObs->Draw("lp");
     }
-    pt->Draw();
+    //pt->Draw();
 
     TPaveText *br01 = new TPaveText(0.362, 0.240, 0.357, 0.258+0.066, "ndc");
     br01->SetBorderSize(0);
     br01->SetFillStyle(0);
     br01->SetTextAlign(12);
     br01->SetTextFont(42);
-    br01->SetTextSize(0.035);
+    br01->SetTextSize(textSize);
     if (model=="RPV")
         br01->AddText("m_{#tilde{#chi}^{0}_{1}} = 100 GeV");
     else if (model=="SYY")
         br01->AddText("m_{#tilde{S}} = 100 GeV");
     else if (model=="StealthSHH")
         br01->AddText("m_{#tilde{S}} = 100 GeV");
-    br01->Draw("same");
+    //br01->Draw("same");
 
-    //TPaveText *br1 = new TPaveText(0.207, 0.258, 0.357, 0.258+0.066, "ndc");
-    TPaveText *br1 = new TPaveText(0.15, 0.258, 0.357, 0.258+0.066, "ndc");
+    TPaveText *br1 = new TPaveText(0.15, 0.317, 0.357, 0.317+0.066, "ndc");
     br1->SetBorderSize(0);
     br1->SetFillStyle(0);
     br1->SetTextAlign(12);
     br1->SetTextFont(42);
-    br1->SetTextSize(0.035);
+    br1->SetTextSize(textSize);
 
     if (model=="RPV")
-        br1->AddText("#bf{#it{#Beta}}(#tilde{t} #rightarrow t #tilde{#chi}^{0}_{1}) = 1.0,");
+        br1->AddText("#bf{#it{#Beta}}(#tilde{t} #rightarrow t #tilde{#chi}^{0}_{1}) = 1.0");
     else if (model=="SYY")
-        br1->AddText("#bf{#it{#Beta}}(#tilde{t} #rightarrow t#tilde{S}g) = 1.0,");
+        br1->AddText("#bf{#it{#Beta}}(#tilde{t} #rightarrow t#tilde{S}g) = 1.0");
     else if (model=="StealthSHH")
-        br1->AddText("#bf{#it{#Beta}}(#tilde{t} #rightarrow t#tilde{S}) = 1.0,");
+        br1->AddText("#bf{#it{#Beta}}(#tilde{t} #rightarrow t#tilde{S}) = 1.0");
 
-    // if (channel=="RPV" || channel=="RPVL" || channel=="RPV2L")
-    //   br1->AddText("B(#tilde{t} #rightarrow t #tilde{#chi}^{0}_{1}) = 1.0");
-    // else if (channel=="SYY" || channel=="SYYL")
-    //   br1->AddText("B(#tilde{t} #rightarrow t#tilde{S}g) = 1.0");
-    // else if (channel=="StealthSHH" || channel=="StealthSHHL")
-    //   br1->AddText("B(#tilde{t} #rightarrow t#tilde{S}) = 1.0");
     br1->Draw("same");
 
-    TPaveText *br20 = new TPaveText(0.362, 0.186, 0.357, 0.204+0.066, "ndc");
+    TPaveText *br20 = new TPaveText(0.362, 0.215, 0.357, 0.215+0.066, "ndc");
     br20->SetBorderSize(0);
     br20->SetFillStyle(0);
     br20->SetTextAlign(12);
     br20->SetTextFont(42);
-    br20->SetTextSize(0.035);
+    br20->SetTextSize(textSize);
     if (model=="RPV")
         br20->AddText("");
     else if (model=="SYY")
         br20->AddText("m_{#tilde{G}} = 1 GeV, m_{S} = 90 GeV");
     else if (model=="StealthSHH")
         br20->AddText("m_{#tilde{G}} = 1 GeV, m_{S} = 90 GeV");
-    br20->Draw("same");
+    //br20->Draw("same");
 
-    //TPaveText *br2 = new TPaveText(0.207, 0.204, 0.357, 0.204+0.066, "ndc");
-    TPaveText *br2 = new TPaveText(0.15, 0.204, 0.357, 0.204+0.066, "ndc");
+    TPaveText *br2 = new TPaveText(0.15, 0.240, 0.357, 0.240+0.066, "ndc");
     br2->SetBorderSize(0);
     br2->SetFillStyle(0);
     br2->SetTextAlign(12);
     br2->SetTextFont(42);
-    br2->SetTextSize(0.035);
+    br2->SetTextSize(textSize);
     if (model=="RPV")
         br2->AddText("#bf{#it{#Beta}}(#tilde{#chi}^{0}_{1} #rightarrow jjj) = 1.0");
     else if (model=="SYY")
-        br2->AddText("#bf{#it{#Beta}}(#tilde{S} #rightarrow S#tilde{G}) = 1.0,");
+        br2->AddText("#bf{#it{#Beta}}(#tilde{S} #rightarrow S#tilde{G}) = 1.0, #bf{#it{#Beta}}(S #rightarrow gg) = 1.0");
     else if (model=="StealthSHH")
-        br2->AddText("#bf{#it{#Beta}}(#tilde{S} #rightarrow S#tilde{G}) = 1.0");
+        br2->AddText("#bf{#it{#Beta}}(#tilde{S} #rightarrow S#tilde{G}) = 1.0, #bf{#it{#Beta}}(S #rightarrow bb) = 1.0");
 
-    // if (channel=="RPV" || channel=="RPVL" || channel=="RPV2L")
-    //   br2->AddText("B(#tilde{#chi}^{0}_{1} #rightarrow jjj) = 1.0");
-    // else if (channel=="SYY" || channel=="SYYL")
-    //   br2->AddText("B(#tilde{S} #rightarrow S#tilde{G}) = 1.0");
-    // else if (channel=="StealthSHH" || channel=="StealthSHHL")
-    //   br2->AddText("B(#tilde{S} #rightarrow S#tilde{G}) = 1.0");
     br2->Draw("same");
 
-    //TPaveText *br3 = new TPaveText(0.207, 0.150, 0.357, 0.150+0.066, "ndc");
-    TPaveText *br3 = new TPaveText(0.15, 0.150, 0.357, 0.150+0.066, "ndc");
+    TPaveText *br3 = new TPaveText(0.15, 0.16, 0.357, 0.16+0.066, "ndc");
     br3->SetBorderSize(0);
     br3->SetFillStyle(0);
     br3->SetTextAlign(12);
     br3->SetTextFont(42);
-    br3->SetTextSize(0.035);
+    br3->SetTextSize(textSize);
+    if (model=="RPV")
+        br3->AddText("m_{#tilde{#chi}^{0}_{1}} = 100 GeV");        
     if (model=="SYY")
-        br3->AddText("#bf{#it{#Beta}}(S #rightarrow gg) = 1.0");
+        br3->AddText("m_{#tilde{S}} = 100 GeV, m_{#tilde{G}} = 1 GeV, m_{S} = 90 GeV");
     if (model=="StealthSHH")
-        br3->AddText("#bf{#it{#Beta}}(S #rightarrow bb) = 1.0");
-
-    // if (channel=="SYY" || channel=="SYYL")
-    //   br3->AddText("B(S #rightarrow gg) = 1.0");
-    // if (channel=="StealthSHH" || channel=="StealthSHHL")
-    //   br3->AddText("B(S #rightarrow bb) = 1.0");
+        br3->AddText("m_{#tilde{S}} = 100 GeV, m_{#tilde{G}} = 1 GeV, m_{S} = 90 GeV");
     br3->Draw("same");
 
     if (DRAW_LOGOS) 
@@ -551,26 +482,33 @@ void makeLimitPlotsLegacyAna(const string today = "Jan17_2019", const string fil
     TGraphAsymmErrors *grTheoryErr = new TGraphAsymmErrors(npoints,xpoints.data(),sigBr.data(),nullptr,nullptr,sigBr1SM.data(),sigBr1SP.data());
     grTheoryErr->SetLineColor(2);
     grTheoryErr->SetLineWidth(2);
-    //grTheoryErr->SetMarkerColor(2);
-    //grTheoryErr->SetMarkerStyle(20);
     grTheoryErr->SetFillColor(42);
     TGraph *grTheory = new TGraph(npoints,xpoints.data(),sigBr.data());
     grTheory->SetLineColor(2);
     grTheory->SetLineWidth(2);
 
+    string header = "";
+    if (model=="RPV")
+        header = "pp #rightarrow #tilde{t} #bar{#tilde{t}}, #tilde{t} #rightarrow t #tilde{#chi}^{0}_{1},  #tilde{#chi}^{0}_{1} #rightarrow jjj";
+    else if (model=="SYY")
+        header = "pp #rightarrow #tilde{t} #bar{#tilde{t}}, #tilde{t} #rightarrow t#tilde{S}g, #tilde{S} #rightarrow S#tilde{G}, S #rightarrow gg";
+    else if (model=="StealthSHH")
+        header = "pp #rightarrow #tilde{t} #bar{#tilde{t}}, #tilde{t} #rightarrow t#tilde{S}, #tilde{S} #rightarrow S#tilde{G}, S #rightarrow b#bar{b}";
+
     TLegend *legend = nullptr;
 
     if (model=="RPV")
-        legend = new TLegend(0.59, 0.62, 0.849, 0.814);
+        legend = new TLegend(0.50, 0.58, 0.95, 0.88);
     else if (model=="SYY" or model=="StealthSHH")
-        legend = new TLegend(0.55, 0.62, 0.819, 0.814);
+        legend = new TLegend(0.40, 0.58, 0.85, 0.88);
 
     legend->SetBorderSize(0);
     legend->SetFillColor(0);
     legend->SetFillStyle(0);
     legend->SetTextAlign(12);
     legend->SetTextFont(42);
-    legend->SetTextSize(0.04);
+    legend->SetHeader(header.c_str());
+    legend->SetTextSize(textSize);
     legend->AddEntry(grGreen,"68% expected", "fl");
     legend->AddEntry(grYellow,"95% expected", "fl");
     if(DRAW_OBS) legend->AddEntry(grObs,"Observed limit", "lp");
@@ -582,12 +520,6 @@ void makeLimitPlotsLegacyAna(const string today = "Jan17_2019", const string fil
     else if (model=="StealthSHH")
         legend->AddEntry(grTheoryErr,"#sigma_{#tilde{t} #bar{#tilde{t}}} (NNLO+NNLL)", "lf");
 
-    // if (channel=="RPV" || channel=="RPVL" || channel=="RPV2L")
-    //   legend->AddEntry(grTheoryErr,"RPV stop (with xsec uncertainty)", "lf");
-    // else if (channel=="SYY" || channel=="SYYL")
-    //   legend->AddEntry(grTheoryErr,"SYY (with xsec uncertainty)", "lf");
-    // else if (channel=="StealthSHH" || channel=="StealthSHHL")
-    //   legend->AddEntry(grTheoryErr,"StealthSHH (with xsec uncertainty)", "lf");
     legend->Draw();
 
     grTheoryErr->Draw("3,same");
@@ -600,14 +532,8 @@ void makeLimitPlotsLegacyAna(const string today = "Jan17_2019", const string fil
     if (DRAW_OBS) grObs->Draw("lp");
 
     lineOne->Delete();
-    //lb.getLine()->SetLineColor(kRed);
-    //lb.getLine()->Draw();
 
     cCanvas->cd();
-    //gr = new TGraph(npoints,xpoints,limits_obs);
-    //gr->SetLineWidth(2);
-    //gr->SetMarkerStyle(1);
-    //gr->Draw("ALP,same");
 
     CMS_lumi(cCanvas,iPeriod,iPos,writeExtraText);
     cCanvas->Update();
@@ -635,13 +561,9 @@ void makeLimitPlotsLegacyAna(const string today = "Jan17_2019", const string fil
     std::string approvalStr = "";
     if (not approved) approvalStr = "_prelim";
 
-    std::string seps = filedir+"/"+ssave+approvalStr+".eps";
-    std::string sgif = filedir+"/"+ssave+approvalStr+".gif";
-    std::string sroot = filedir+"/"+ssave+approvalStr+".root";
-    std::string spdf = filedir+"/"+ssave+approvalStr+".pdf";
+    std::string sroot = "PlotsForLegacyAna/Paper/"+ssave+".root";
+    std::string spdf  = "PlotsForLegacyAna/Paper/"+ssave+".pdf";
     cCanvas->Print(sroot.c_str());
-    cCanvas->Print(seps.c_str());
-    cCanvas->Print(sgif.c_str());
     cCanvas->Print(spdf.c_str());
 
 }
