@@ -3,7 +3,6 @@ import re
 from sys import argv, stdout, stderr, exit
 import datetime
 from optparse import OptionParser
-import HiggsAnalysis.CombinedLimit.calculate_pulls as CP 
 
 # tool to compare fitted nuisance parameters to prefit values.
 #
@@ -235,7 +234,7 @@ import ROOT
 ROOT.gROOT.SetStyle("Plain")
 ROOT.gStyle.SetOptFit(1)
 
-year = ""; tag = ""; supp = True; figNameStub = "CMS-SUS-19-004_Figure-aux_"; subfig = ""; subdir = "Supplementary"
+year = ""; tag = ""; supp = True; figNameStub = "CMS-SUS-19-004_Figure-aux_"; figNameStub2 = ""; subfig = ""; subdir = "Supplementary"; subdir2 = ""
 if   "2016"     in file.GetName():
     year = "2016 (13 TeV)"
     tag = "2016"
@@ -260,9 +259,11 @@ elif "Combo"    in file.GetName():
     year = "137 fb^{-1} (13 TeV)"
     tag = "Combo"
     supp = False
-    subdir = "Paper"
-    subfig = "-a"
-    figNameStub = "Figure_008.pdf"
+    subdir = "Supplementary"
+    subdir2 = "Paper"
+    subfig = "-e"
+    figNameStub = "CMS-SUS-19-004_Figure-aux_"
+    figNameStub2 = "Figure_008"
 
 canvas_nuis = ROOT.TCanvas("nuisances", "nuisances", 1800, 800)
 canvas_nuis.Divide(1,2); canvas_nuis.cd(1)
@@ -411,9 +412,9 @@ if supp:
     mark.DrawLatex(-0.04 + ROOT.gPad.GetLeftMargin() + 0.07, 1 - (ROOT.gPad.GetTopMargin() + 0.005), SUPP)
 else:
     if not options.approved: 
-        mark.DrawLatex(-0.04 + ROOT.gPad.GetLeftMargin() + 0.03, 1 - (ROOT.gPad.GetTopMargin() - 0.02), "Simulation")
+        mark.DrawLatex(-0.04 + ROOT.gPad.GetLeftMargin() + 0.07, 1 - (ROOT.gPad.GetTopMargin() + 0.006), "Simulation")
     else:
-        mark.DrawLatex(-0.04 + ROOT.gPad.GetLeftMargin() + 0.03, 1 - (ROOT.gPad.GetTopMargin() - 0.02), "Simulation")
+        mark.DrawLatex(-0.04 + ROOT.gPad.GetLeftMargin() + 0.07, 1 - (ROOT.gPad.GetTopMargin() + 0.006), "Simulation")
 
 mark.SetTextSize(0.11)
 mark.SetTextFont(42)
@@ -445,8 +446,7 @@ dummyChi2.GetYaxis().SetLabelSize(0.1*PadFactor)
 dummyChi2.GetXaxis().SetLabelSize(0.1*PadFactor)
 dummyChi2.GetXaxis().SetLabelOffset(0.012/PadFactor)
 
-if supp: dummyChi2.GetYaxis().SetRangeUser(-3.7,2.7)
-else:    dummyChi2.GetYaxis().SetRangeUser(-16.2,1.2)
+dummyChi2.GetYaxis().SetRangeUser(-3.7,2.7)
 
 dummyChi2.GetYaxis().SetNdivisions(5,5,0)
 dummyChi2.SetLineStyle(2)
@@ -470,12 +470,19 @@ leg2.Draw("SAME")
 l.Draw("SAME")
 ROOT.gPad.SetGridx()
 
+fig = "Nuisance_Pulls"
+if supp: fig = "005" 
+
 if not options.approved:
-    canvas_nuis.SaveAs("PlotsForLegacyAna/%s/Nuisance_Pulls_%s_prelim.pdf"%(subdir,tag))
-    canvas_nuis.SaveAs("PlotsForLegacyAna/%s/Nuisance_Pulls_%s_prelim.png"%(subdir,tag))
+    canvas_nuis.SaveAs("PlotsForLegacyAna/%s/%s_%s_prelim.pdf"%(fig,subdir,tag))
+    canvas_nuis.SaveAs("PlotsForLegacyAna/%s/%s_%s_prelim.png"%(fig,subdir,tag))
 else:
-    canvas_nuis.SaveAs("PlotsForLegacyAna/%s/%s005%s.pdf"%(subdir,subFigStub,subfig))
-    canvas_nuis.SaveAs("PlotsForLegacyAna/%s/%s005%s.png"%(subdir,subFigStub,subfig))
+    if supp:
+        canvas_nuis.SaveAs("PlotsForLegacyAna/%s/%s%s%s.pdf"%(subdir,figNameStub,fig,subfig))
+        canvas_nuis.SaveAs("PlotsForLegacyAna/%s/%s%s%s.png"%(subdir,figNameStub,fig,subfig))
+    else:
+        canvas_nuis.SaveAs("PlotsForLegacyAna/%s/%s.pdf"%(subdir2,figNameStub2))
+        canvas_nuis.SaveAs("PlotsForLegacyAna/%s/%s.png"%(subdir2,figNameStub2))
 
 # Make a delta chi2 1D histo
 canvas_dchi2 = ROOT.TCanvas("dchi2_c", "dchi2_c", 1200, 1200)
@@ -504,13 +511,7 @@ mark.SetTextSize(0.045);
 mark.SetTextFont(61);
 mark.DrawLatex(ROOT.gPad.GetLeftMargin(), 1 - (ROOT.gPad.GetTopMargin() - 0.02), "CMS")
 mark.SetTextFont(52);
-if supp:
-    mark.DrawLatex(ROOT.gPad.GetLeftMargin() + 0.10, 1 - (ROOT.gPad.GetTopMargin() - 0.02), SUPP)
-else:
-    if not options.approved: 
-        mark.DrawLatex(ROOT.gPad.GetLeftMargin() + 0.10, 1 - (ROOT.gPad.GetTopMargin() - 0.02), "Simulation Supplementary")
-    else:
-        mark.DrawLatex(ROOT.gPad.GetLeftMargin() + 0.10, 1 - (ROOT.gPad.GetTopMargin() - 0.02), "Simulation")
+mark.DrawLatex(ROOT.gPad.GetLeftMargin() + 0.10, 1 - (ROOT.gPad.GetTopMargin() - 0.02), SUPP)
 
 mark.SetTextSize(0.035)
 mark.SetTextFont(42)
@@ -520,8 +521,7 @@ nentries = dChi2Histo.GetEntries()
 mean = dChi2Histo.GetMean()
 dchi2 = mean * nentries
 
-if supp: dChi2Histo.GetXaxis().SetRangeUser(-3.1,3.1)
-else:    dChi2Histo.GetXaxis().SetRangeUser(-13.75,0.75)
+dChi2Histo.GetXaxis().SetRangeUser(-3.1,3.1)
 
 canvas_dchi2.SetLogy()
 
@@ -536,13 +536,13 @@ meta.SetTextColor(ROOT.kRed)
 meta.DrawLatex(ROOT.gPad.GetLeftMargin() + 0.05, 1 - ROOT.gPad.GetTopMargin() - 0.12, "#LT#Delta#chi^{2}#GT = %3.3f"%(mean))
 meta.DrawLatex(ROOT.gPad.GetLeftMargin() + 0.05, 1 - ROOT.gPad.GetTopMargin() - 0.18, "#sum#Delta#chi^{2} = %3.2f"%(dchi2))
 
+fig = "006"
 if not options.approved:
-    canvas_dchi2.SaveAs("PlotsForLegacyAna/%s/dChi2_Dist_%s_prelim.pdf"%(subdir,tag))
-    canvas_dchi2.SaveAs("PlotsForLegacyAna/%s/dChi2_Dist_%s_prelim.png"%(subdir,tag))
+    canvas_dchi2.SaveAs("PlotsForLegacyAna/%s/%s_%s_prelim.pdf"%(fig,subdir,tag))
+    canvas_dchi2.SaveAs("PlotsForLegacyAna/%s/%s_%s_prelim.png"%(fig,subdir,tag))
 else:
-    canvas_dchi2.SaveAs("PlotsForLegacyAna/%s/%s006%s.pdf"%(subdir,subFigStub,subfig))
-    canvas_dchi2.SaveAs("PlotsForLegacyAna/%s/%s006%s.png"%(subdir,subFigStub,subfig))
-
+    canvas_dchi2.SaveAs("PlotsForLegacyAna/%s/%s%s%s.pdf"%(subdir,figNameStub,fig,subfig))
+    canvas_dchi2.SaveAs("PlotsForLegacyAna/%s/%s%s%s.png"%(subdir,figNameStub,fig,subfig))
 # Make a chi2 1D histo for b and s+b fits
 canvas_chi2 = ROOT.TCanvas("chi2_c", "chi2_c", 1200, 1200)
 canvas_chi2.cd()
@@ -571,13 +571,7 @@ mark.SetTextSize(0.045);
 mark.SetTextFont(61);
 mark.DrawLatex(ROOT.gPad.GetLeftMargin(), 1 - (ROOT.gPad.GetTopMargin() - 0.02), "CMS")
 mark.SetTextFont(52);
-if supp:
-    mark.DrawLatex(ROOT.gPad.GetLeftMargin() + 0.10, 1 - (ROOT.gPad.GetTopMargin() - 0.02), SUPP)
-else:
-    if not options.approved: 
-        mark.DrawLatex(ROOT.gPad.GetLeftMargin() + 0.10, 1 - (ROOT.gPad.GetTopMargin() - 0.02), "Simulation Supplementary")
-    else:
-        mark.DrawLatex(ROOT.gPad.GetLeftMargin() + 0.10, 1 - (ROOT.gPad.GetTopMargin() - 0.02), "Simulation")
+mark.DrawLatex(ROOT.gPad.GetLeftMargin() + 0.10, 1 - (ROOT.gPad.GetTopMargin() - 0.02), SUPP)
 
 mark.SetTextSize(0.035)
 mark.SetTextFont(42)
@@ -591,8 +585,7 @@ sbnentries = sbChi2Histo.GetEntries()
 sbmean = sbChi2Histo.GetMean()
 sbchi2 = sbmean * nentries
 
-if supp: bChi2Histo.GetXaxis().SetRangeUser(0,3.1)
-else:    bChi2Histo.GetXaxis().SetRangeUser(0,13.75)
+bChi2Histo.GetXaxis().SetRangeUser(0,3.1)
 
 canvas_chi2.SetLogy()
 
@@ -610,13 +603,10 @@ meta.SetTextColor(cornblue);
 meta.DrawLatex(ROOT.gPad.GetLeftMargin() + 0.05, 1 - ROOT.gPad.GetTopMargin() - 0.26, "#LT#chi^{2}(s+b)#GT = %3.3f"%(sbmean))
 meta.DrawLatex(ROOT.gPad.GetLeftMargin() + 0.05, 1 - ROOT.gPad.GetTopMargin() - 0.32, "#sum#chi^{2} = %3.2f"%(sbchi2))
 
+fig = "007"
 if not options.approved:
-    canvas_chi2.SaveAs("PlotsForLegacyAna/%s/Chi2_Dist_%s_prelim.pdf"%(subdir,tag))
-    canvas_chi2.SaveAs("PlotsForLegacyAna/%s/Chi2_Dist_%s_prelim.png"%(subdir,tag))
+    canvas_chi2.SaveAs("PlotsForLegacyAna/%s/%s_%s_prelim.pdf"%(fig,subdir,tag))
+    canvas_chi2.SaveAs("PlotsForLegacyAna/%s/%s_%s_prelim.png"%(fig,subdir,tag))
 else:
-    if supp:
-        canvas_chi2.SaveAs("PlotsForLegacyAna/%s/%s007%s.pdf"%(subdir,subFigStub,subfig))
-        canvas_chi2.SaveAs("PlotsForLegacyAna/%s/%s007%s.png"%(subdir,subFigStub,subfig))
-    else:
-        canvas_chi2.SaveAs("PlotsForLegacyAna/%s/%s.pdf"%(subdir,subFigStub))
-        canvas_chi2.SaveAs("PlotsForLegacyAna/%s/%s.png"%(subdir,subFigStub))
+    canvas_chi2.SaveAs("PlotsForLegacyAna/%s/%s%s%s.pdf"%(subdir,figNameStub,fig,subfig))
+    canvas_chi2.SaveAs("PlotsForLegacyAna/%s/%s%s%s.png"%(subdir,figNameStub,fig,subfig))
