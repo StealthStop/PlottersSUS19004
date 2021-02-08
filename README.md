@@ -63,8 +63,8 @@ python makeNjetsStackLegacyAna.py --approved
 ### Making Figure 6
 
 ```
-root -b -l -q 'makeLimitPlotsLegacyAna.C("Jun15_2020", "./LimitsAndPvalues/FullRun2_Unblinded_Jun15/Fit_Data_Combo/output-files/", "Combo", "RPV", true)'
-root -b -l -q 'makeLimitPlotsLegacyAna.C("Jun15_2020", "./LimitsAndPvalues/FullRun2_Unblinded_Jun15/Fit_Data_Combo/output-files/", "Combo", "SYY", true)'
+root -b -l -q 'makeLimitPlotsLegacyAna.C("Combo", "RPV", true)'
+root -b -l -q 'makeLimitPlotsLegacyAna.C("Combo", "SYY", true)'
 ```
 
 ### Making Figure 7
@@ -76,7 +76,7 @@ python makePvaluesPlotLegacyAna.py --approved
 ### Making Figure 8
 
 ```
-python makeNPplotsLegacyAna.py ./LimitsAndPvalues/FullRun2_Unblinded_Jun15/Fit_Data_Combo/output-files/RPV_400_Combo/fitDiagnosticsComboRPV400.root --approved
+python makeNPplotsLegacyAna.py --year Combo --approved
 ```
 
 ## Making Legacy Plots for SUS-19-004 Supplementary
@@ -104,10 +104,10 @@ python makeSNNwithWithoutGRPlotsLegacyAna.py --approved
 ### Making Figure 4, 5, and 6
 
 ```
-python makeNPplotsLegacyAna.py ./LimitsAndPvalues/FullRun2_Unblinded_Jun15/Fit_Data_2016/output-files/RPV_400_2016/fitDiagnostics2016RPV400.root --approved
-python makeNPplotsLegacyAna.py ./LimitsAndPvalues/FullRun2_Unblinded_Jun15/Fit_Data_2017/output-files/RPV_400_2017/fitDiagnostics2017RPV400.root --approved
-python makeNPplotsLegacyAna.py ./LimitsAndPvalues/FullRun2_Unblinded_Jun15/Fit_Data_2018pre/output-files/RPV_400_2018pre/fitDiagnostics2018preRPV400.root --approved
-python makeNPplotsLegacyAna.py ./LimitsAndPvalues/FullRun2_Unblinded_Jun15/Fit_Data_2018post/output-files/RPV_400_2018post/fitDiagnostics2018postRPV400.root --approved
+python makeNPplotsLegacyAna.py --year 2016     --approved
+python makeNPplotsLegacyAna.py --year 2017     --approved
+python makeNPplotsLegacyAna.py --year 2018pre  --approved
+python makeNPplotsLegacyAna.py --year 2018post --approved
 ```
 ### Making Figure 7 and 8
 

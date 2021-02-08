@@ -106,12 +106,10 @@ def makePValuePlot(dataSet, approved):
     gr_2018post.Draw("L,same")
     gr_Combo.Draw("L,same")
 
-    legend1 = ROOT.TLegend(0.20, 0.03, 0.83, 0.29,"")
+    legend1 = ROOT.TLegend(0.20, 0.03, 0.83, 0.33,"")
     legend1.SetNColumns(2)
-    legend1.SetTextSize(0.05)
-    if   dataSet["model"]=="RPV": legend1.SetHeader("pp #rightarrow #tilde{t} #bar{#tilde{t}}, #tilde{t} #rightarrow t #tilde{#chi}^{0}_{1},  #tilde{#chi}^{0}_{1} #rightarrow jjj");
-    elif dataSet["model"]=="SYY": legend1.SetHeader("pp #rightarrow #tilde{t} #bar{#tilde{t}}, #tilde{t} #rightarrow t#tilde{S}g, #tilde{S} #rightarrow S#tilde{G}, S #rightarrow gg");
-    elif dataSet["model"]=="SHH": legend1.SetHeader("pp #rightarrow #tilde{t} #bar{#tilde{t}}, SHH coupling");
+    legend1.SetTextSize(0.055)
+
     legend1.AddEntry(gr_Combo, "All Years (137 fb^{-1})", "l")
     legend1.AddEntry(gr_Combo, " ", "")
     legend1.AddEntry(gr_2016, "2016 (35.9 fb^{-1})", "l")
@@ -121,6 +119,15 @@ def makePValuePlot(dataSet, approved):
     legend1.SetBorderSize(0)
     legend1.SetFillStyle(0)
     legend1.Draw("same")
+
+    text = ROOT.TLatex()
+    text.SetNDC(True)
+    text.SetTextFont(42)
+    text.SetTextAlign(31)
+    text.SetTextSize(0.055)
+    if   dataSet["model"]=="RPV": text.DrawLatex(0.92,0.35,"pp #rightarrow #tilde{t} #bar{#tilde{t}}, #tilde{t} #rightarrow t #tilde{#chi}^{0}_{1},  #tilde{#chi}^{0}_{1} #rightarrow jjj");
+    elif dataSet["model"]=="SYY": text.DrawLatex(0.92,0.35,"pp #rightarrow #tilde{t} #bar{#tilde{t}}, #tilde{t} #rightarrow t#tilde{S}g, #tilde{S} #rightarrow S#tilde{G}, S #rightarrow gg");
+    elif dataSet["model"]=="SHH": text.DrawLatex(0.92,0.35,"pp #rightarrow #tilde{t} #bar{#tilde{t}}, SHH coupling");
 
     cmstext = ROOT.TLatex()
     cmstext.SetNDC(True)

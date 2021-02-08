@@ -25,23 +25,25 @@ if hasHelp: argv.append("-h")
 ARXIV = "XXXX.XXXXX"
 
 parser = OptionParser(usage="usage: %prog [options] in.root  \nrun with --help to get list of options")
-parser.add_option("--approved",      dest="approved",      default=False, action="store_true", help="Plot is approved, no preliminary")
+parser.add_option("--approved", dest="approved", default=False,  action="store_true", help="Plot is approved, no preliminary")
+parser.add_option("--year",     dest="year",     default="2016", help="Which year to plot")
+parser.add_option("--mass",     dest="mass",     default="400",  help="Which signal mass to plot")
+parser.add_option("--model",    dest="model",    default="RPV",  help="Which signal model to plot")
 
 (options, args) = parser.parse_args()
-if len(args) == 0:
-    parser.print_usage()
-    exit(1)
 
-setUpString = "diffNuisances run on %s, at %s with the following options ... "%(args[0],datetime.datetime.utcnow())+str(options)
+fileName = "./LimitsAndPvalues/FullRun2_Unblinded_Jun15/Fit_Data_%s/output-files/%s_%s_%s/fitDiagnostics%s%s%s.root"%(options.year,options.model,options.mass,options.year,options.year,options.model,options.mass)
 
-file = ROOT.TFile(args[0])
-if file == None: raise RuntimeError, "Cannot open file %s" % args[0]
+setUpString = "diffNuisances run on %s, at %s with the following options ... "%(fileName,datetime.datetime.utcnow())+str(options)
+
+file = ROOT.TFile(fileName)
+if file == None: raise RuntimeError, "Cannot open file %s" % fileName
 fit_s  = file.Get("fit_s")
 fit_b  = file.Get("fit_b")
 prefit = file.Get("nuisances_prefit")
-if fit_s == None or fit_s.ClassName()   != "RooFitResult": raise RuntimeError, "File %s does not contain the output of the signal fit 'fit_s'"     % args[0]
-if fit_b == None or fit_b.ClassName()   != "RooFitResult": raise RuntimeError, "File %s does not contain the output of the background fit 'fit_b'" % args[0]
-if prefit == None or prefit.ClassName() != "RooArgSet":    raise RuntimeError, "File %s does not contain the prefit nuisances 'nuisances_prefit'"  % args[0]
+if fit_s == None or fit_s.ClassName()   != "RooFitResult": raise RuntimeError, "File %s does not contain the output of the signal fit 'fit_s'"     % fileName
+if fit_b == None or fit_b.ClassName()   != "RooFitResult": raise RuntimeError, "File %s does not contain the output of the background fit 'fit_b'" % fileName
+if prefit == None or prefit.ClassName() != "RooArgSet":    raise RuntimeError, "File %s does not contain the prefit nuisances 'nuisances_prefit'"  % fileName
 
 # get the fitted parameters
 fpf_b = fit_b.floatParsFinal()
@@ -358,6 +360,7 @@ gr_fit_b.SetLineWidth(2)
 gr_fit_s.SetLineWidth(2)
 deltaChi2.SetLineWidth(2)
 hist_prefit.SetLineWidth(2)
+hist_prefit.SetLineStyle(2)
 hist_prefit.GetYaxis().SetTitleSize(0.13)
 hist_prefit.GetYaxis().SetTitleOffset(0.225)
 hist_prefit.GetYaxis().SetLabelSize(0.1)
@@ -366,7 +369,6 @@ hist_prefit.GetXaxis().SetLabelOffset(0.012)
 hist_prefit.GetYaxis().SetTitle("#theta")
 hist_prefit.SetTitle("")
 hist_prefit.SetLineColor(ROOT.kBlack)
-hist_prefit.SetFillColor(ROOT.kGray)
 hist_prefit.SetMaximum(3.5)
 hist_prefit.SetMinimum(-3.5)
 hist_prefit.GetXaxis().SetRangeUser(0.0,lastBin+1)
@@ -381,14 +383,14 @@ l.SetLineWidth(2)
 l.SetLineColor(ROOT.kBlack)
 l.SetLineStyle(1)
 
-hist_prefit.Draw("E2")
-hist_prefit.Draw("histsame")
+ROOT.gPad.SetGridx()
+#hist_prefit.Draw("E2")
+hist_prefit.Draw("hist")
 gr_fit_b.Draw("EPsame")
 gr_fit_s.Draw("EPsame")
 l.Draw("SAME")
-ROOT.gPad.SetGridx()
 ROOT.gPad.RedrawAxis()
-ROOT.gPad.RedrawAxis('g')
+#ROOT.gPad.RedrawAxis('g')
 
 cmstext = ROOT.TLatex()
 cmstext.SetNDC(True)
@@ -421,7 +423,7 @@ if "Combo" not in tag: mark.DrawLatex(-0.04 + ROOT.gPad.GetLeftMargin() + 0.30, 
 leg=ROOT.TLegend(0.68,0.56,0.78,0.85)
 leg.SetFillColor(0)
 leg.SetTextFont(42)
-leg.AddEntry(hist_prefit,"prefit","FL")
+#leg.AddEntry(hist_prefit,"prefit","FL")
 leg.AddEntry(gr_fit_b,"b-only fit","EPL")
 leg.AddEntry(gr_fit_s,"s+b fit"   ,"EPL")
 leg.Draw()
