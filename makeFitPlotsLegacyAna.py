@@ -63,21 +63,36 @@ def main() :
        
         dummyPullHist, dummyPullHist_D4 = makeDummyPullHistograms()
     
+        yearText = ""; filename = ""
+        if year == "Combo16" :
+            yearText = "2016"
+            filename = "Figure_004-a.pdf"
+        if year == "Combo17" :
+            yearText = "2017"
+            filename = "Figure_004-b.pdf"
+        if year == "Combo18pre" :
+            yearText = "2018A"
+            filename = "Figure_004-c.pdf"
+        if year == "Combo18post" :
+            yearText = "2018B" 
+            filename = "Figure_004-d.pdf"
+
+        outfile = ROOT.TFile.Open("PlotsForLegacyAna/Paper/%s"%(filename.replace(".pdf",".root")), "RECREATE")
         for itBin in xrange( 0, len(snnBinList) ):    
     
             #Define the name of the bin, which is used in the naming convention of the root file
             snnBin                      = prefix+snnBinList[ itBin ]
     
-            sigRefHist1                 = inputRootFile.Get( "sigRefHist1_"+snnBin )
-            sigRefHist2                 = inputRootFile.Get( "sigRefHist2_"+snnBin )
-            sigHist                     = inputRootFile.Get( "sigHist_"+snnBin )
+            sigRefHist1                 = inputRootFile.Get( "sigRefHist1_"+snnBin ); sigRefHist1.SetName( "Signal_%s%s_Ref1_"%(args.model1,args.mass1)+snnBin ); sigRefHist1.SetTitle( "Signal_%s%s_Ref1_"%(args.model1,args.mass1)+snnBin )
+            sigRefHist2                 = inputRootFile.Get( "sigRefHist2_"+snnBin ); sigRefHist2.SetName( "Signal_%s%s_Ref2_"%(args.model2,args.mass2)+snnBin ); sigRefHist2.SetTitle( "Signal_%s%s_Ref2_"%(args.model2,args.mass2)+snnBin )
+            sigHist                     = inputRootFile.Get( "sigHist_"+snnBin );     sigHist.SetName( "Fit_Signal_Component_"+snnBin );                          sigHist.SetTitle( "Fit_Signal_Component_"+snnBin )
             ttHist                      = inputRootFile.Get( "ttHist_"+snnBin )
             qcdHist                     = inputRootFile.Get( "qcdHist_"+snnBin )
             ttxHist                     = inputRootFile.Get( "ttxHist_"+snnBin )
             otherHist                   = inputRootFile.Get( "otherHist_"+snnBin )
             bkgdHist                    = inputRootFile.Get( "bkgdHist_"+snnBin )
-            fitGraph                    = inputRootFile.Get( "Fit_"+snnBin )
-            dataGraph                   = inputRootFile.Get( "Nobs_"+snnBin )
+            fitGraph                    = inputRootFile.Get( "Fit_"+snnBin );         fitGraph.SetName( "Total_Fit_"+snnBin ); fitGraph.SetTitle( "Total_Fit_"+snnBin )
+            dataGraph                   = inputRootFile.Get( "Nobs_"+snnBin );        dataGraph.SetName( "Nobs_"+snnBin );     dataGraph.SetTitle( "Nobs_"+snnBin )
             fitHist                     = ROOT.TH1D( "fitHist_"+snnBinList[itBin], "fitHist_"+snnBinList[itBin], 6, 0, 6 )
     
             #Make the fit graph (TGraphAsymmErrors object) into a histogram object so that axes can be changed accordingly (can also use dummy histogram here).
@@ -120,6 +135,7 @@ def main() :
     
             fitHistArray[itBin].Draw( "HIST" ) #Hist plot necessary to get the right borders
             fitGraph.Draw( "2 SAME" ) #Need to be drawn next to get any asymmetric errors (though they seem symmetric in spot checks)
+            fitGraph.Write()
             fitHistArray[itBin].Draw( "HIST SAME" ) #Hist plot again to make the right order for plotting
             ROOT.gPad.RedrawAxis()
     
@@ -140,27 +156,12 @@ def main() :
             mark.SetNDC( ROOT.kTRUE )
             mark.SetTextAlign( 11 )
 
-            yearText = ""; filename = ""
-            if year == "Combo16" :
-                yearText = "2016"
-                filename = "Figure_004-a.pdf"
-            if year == "Combo17" :
-                yearText = "2017"
-                filename = "Figure_004-b.pdf"
-            if year == "Combo18pre" :
-                yearText = "2018A"
-                filename = "Figure_004-c.pdf"
-            if year == "Combo18post" :
-                yearText = "2018B" 
-                filename = "Figure_004-d.pdf"
-
             if itBin == 0 :
                 mark.SetTextSize( 0.065*pad1and4Size/pad2and3Size )
                 mark.SetTextFont( 60 )
                 mark.DrawLatex( ROOT.gPad.GetLeftMargin() + 0.015, 0.91, "CMS")
                 mark.SetTextSize( 0.044*pad1and4Size/pad2and3Size )
                 mark.SetTextFont( 52 )
-                #mark.DrawLatex( ROOT.gPad.GetLeftMargin() + 0.165, 0.91, "Preliminary" )
                 mark.SetTextSize( 0.055*pad1and4Size/pad2and3Size )
                 mark.SetTextFont( 62 )
                 mark.DrawLatex( ROOT.gPad.GetLeftMargin() + 0.025, 0.21, yearText+" data")
@@ -213,23 +214,25 @@ def main() :
                 if( args.compshapes ):
                     l2.Draw()
 
+            outfile.cd()
+
             dataGraph = SetEx( dataGraph, 0.0 )
-            dataGraph.Draw( "P SAME" )
+            dataGraph.Draw( "P SAME" ); dataGraph.Write()
             if( args.bkgdfit ) :
-                bkgdHist.Draw( "HIST SAME" )
-                fitHistArray[itBin].Draw( "HIST SAME" )
+                bkgdHist.Draw( "HIST SAME" ); bkgdHist.Write()
+                fitHistArray[itBin].Draw( "HIST SAME" ); fitHistArray[itBin].Write()
             if( args.bkgonlyfit ) :
-                sigRefHist1.Draw( "HIST SAME" )
+                sigRefHist1.Draw( "HIST SAME" ); sigRefHist1.Write()
             else :
-                sigHist.Draw( "HIST SAME" )
+                sigHist.Draw( "HIST SAME" ); sigHist.Write()
             if( args.twosigfit ) :
-                sigRefHist2.Draw( "HIST SAME" )
+                sigRefHist2.Draw( "HIST SAME" ); sigRefHist2.Write()
             if( args.compshapes ):
                 ttHist.Draw("HIST SAME")
                 qcdHist.Draw("HIST SAME")
                 ttxHist.Draw("HIST SAME")
                 otherHist.Draw("HIST SAME")
-           
+
             #Draw pulls here
             ratioPadArray[itBin].cd()
               
@@ -252,6 +255,7 @@ def main() :
             c1.Update()
     
         c1.SaveAs("PlotsForLegacyAna/Paper/%s"%(filename))
+        outfile.Close()
 
 def SetEx(  inputTGraphAsymmErrors, uniformErrSize ):
     nPoints = inputTGraphAsymmErrors.GetN()
