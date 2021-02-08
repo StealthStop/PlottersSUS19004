@@ -175,7 +175,7 @@ void CMS_lumi( TPad* pad, int iPeriod, int iPosX, bool writeExtraText )
     return;
 }
 
-void makeLimitPlotsLegacyAna(const string today = "Jan17_2019", const string filedir = "fit_results_v5_Jan17_2019", const string year = "2017", const string model = "RPV", const bool approved = false, const string fitType = "AsymptoticLimits") 
+void makeLimitPlotsLegacyAna(const string year = "2017", const string model = "RPV", const bool approved = false, const string fitType = "AsymptoticLimits") 
 {
     // =============================================================
     TStyle *tdrStyle = new TStyle("tdrStyle","Style for P-TDR");
@@ -353,7 +353,7 @@ void makeLimitPlotsLegacyAna(const string today = "Jan17_2019", const string fil
     for (int i=0; i<npoints; i++) 
     {
         const string& mass = std::to_string(int(xpoints[i]));
-        const string& fitter_file = filedir+"/"+model+"_"+mass+"_"+year+"/higgsCombine"+year+"."+fitType+".mH"+mass+".MODEL"+model+".root";
+        const string& fitter_file = "./LimitsAndPvalues/FullRun2_Unblinded_Jun15/Fit_Data_"+year+"/output-files/"+model+"_"+mass+"_"+year+"/higgsCombine"+year+"."+fitType+".mH"+mass+".MODEL"+model+".root";
     
         std::cout << fitter_file << std::endl;
         // Load the root file and read the tree and leaves
