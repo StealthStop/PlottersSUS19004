@@ -315,12 +315,12 @@ for mva in mvaBins:
     
     iamLegend = ROOT.TLegend(ROOT.gPad.GetLeftMargin() + 0.02, 0.70 - ROOT.gPad.GetTopMargin(), ROOT.gPad.GetLeftMargin() + 0.47, 1 - ROOT.gPad.GetTopMargin() - 0.02)
     
-    iamLegend.SetTextSize(0.045)
+    iamLegend.SetTextSize(0.055)
     iamLegend.SetNColumns(2)
     iamLegend.SetBorderSize(2)
     
     sigLegend = ROOT.TLegend(ROOT.gPad.GetLeftMargin() + 0.50, 0.70 - ROOT.gPad.GetTopMargin(), 1. - ROOT.gPad.GetRightMargin() - 0.05, 1 - ROOT.gPad.GetTopMargin() - 0.02)
-    sigLegend.SetTextSize(0.045)
+    sigLegend.SetTextSize(0.055)
     sigLegend.SetNColumns(1)
     sigLegend.SetBorderSize(2)
 
@@ -454,13 +454,13 @@ ROOT.gPad.SetRightMargin(0.04)
 
 iamLegend = ROOT.TLegend(ROOT.gPad.GetLeftMargin() + 0.02, 0.85 - ROOT.gPad.GetTopMargin(), ROOT.gPad.GetLeftMargin() + 0.8, 1 - ROOT.gPad.GetTopMargin() - 0.02)
 
-iamLegend.SetTextSize(0.040)
+iamLegend.SetTextSize(0.055)
 iamLegend.SetNColumns(5)
 iamLegend.SetBorderSize(2)
 
-sigLegend = ROOT.TLegend(ROOT.gPad.GetLeftMargin() + 0.02, 0.75 - ROOT.gPad.GetTopMargin(), 1. - ROOT.gPad.GetRightMargin() - 0.02, 0.85 - ROOT.gPad.GetTopMargin())
-sigLegend.SetTextSize(0.040)
-sigLegend.SetNColumns(2)
+sigLegend = ROOT.TLegend(ROOT.gPad.GetLeftMargin() + 0.22, 0.70 - ROOT.gPad.GetTopMargin(), 1. - ROOT.gPad.GetRightMargin() - 0.02, 0.85 - ROOT.gPad.GetTopMargin())
+sigLegend.SetTextSize(0.055)
+sigLegend.SetNColumns(1)
 sigLegend.SetBorderSize(2)
 
 for process in ["TT", "TTX", "OTHER", "QCD"]: iamLegend.AddEntry(run2Dictionary[process]["h"], aliases[process], "F") 
@@ -537,5 +537,6 @@ systRatioAll.Draw("2SAME")
 
 if args.approved:
     cAll.SaveAs("%s/Figure_005.pdf"%(outpath))
+    cAll.SaveAs("%s/Figure_005.png"%(outpath))
 else:
     cAll.SaveAs("%s/njets_DataVsMC_%s_prelim.pdf"%(outpath,fitStr1))

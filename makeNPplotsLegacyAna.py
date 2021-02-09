@@ -22,6 +22,8 @@ ROOT.gStyle.SetOptStat("")
 argv.remove( '-b-' )
 if hasHelp: argv.append("-h")
 
+ROOT.gStyle.SetErrorX(0)
+
 ARXIV = "XXXX.XXXXX"
 
 parser = OptionParser(usage="usage: %prog [options] in.root  \nrun with --help to get list of options")
@@ -424,8 +426,8 @@ leg=ROOT.TLegend(0.68,0.56,0.78,0.85)
 leg.SetFillColor(0)
 leg.SetTextFont(42)
 #leg.AddEntry(hist_prefit,"prefit","FL")
-leg.AddEntry(gr_fit_b,"b-only fit","EPL")
-leg.AddEntry(gr_fit_s,"s+b fit"   ,"EPL")
+leg.AddEntry(gr_fit_b,"b-only fit","EP")
+leg.AddEntry(gr_fit_s,"s+b fit"   ,"EP")
 leg.Draw()
 ROOT.gPad.SetTopMargin(0.15)
 ROOT.gPad.SetBottomMargin(0.00)

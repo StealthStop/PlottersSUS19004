@@ -41,13 +41,13 @@ void setHistInfo(const std::string& path, std::vector<histInfo>& data, std::vect
     if (not supplementary)
     {
         sig = {        
-            {"RPV m_{#tilde{t}} = 450 GeV (#sigma_{#tilde{t} #bar{#tilde{t}}} #times 4)",          path + "/"+year+"_RPV_2t6j_mStop-450.root",        "hist", kRed,    4.0,  false, 2},
-            {"Stealth SYY m_{#tilde{t}} = 850 GeV (#sigma_{#tilde{t} #bar{#tilde{t}}} #times 16)", path + "/"+year+"_StealthSYY_2t6j_mStop-850.root", "hist", kCyan+1, 16.0, false, 9},        
+            {"RPV m_{ #tilde{t}} = 450 GeV (#sigma_{#tilde{t} #bar{#tilde{t}}} #times 4)",          path + "/"+year+"_RPV_2t6j_mStop-450.root",        "hist", kRed,    4.0,  false, 2},
+            {"Stealth SYY m_{ #tilde{t}} = 850 GeV (#sigma_{#tilde{t} #bar{#tilde{t}}} #times 16)", path + "/"+year+"_StealthSYY_2t6j_mStop-850.root", "hist", kCyan+1, 16.0, false, 9},        
         };
     } else {
         sig = {        
-            {"RPV m_{#tilde{t}} = 450 GeV",         path + "/"+year+"_RPV_2t6j_mStop-450.root",        "hist", kRed,  1.0, false, 2},
-            {"Stealth SYY m_{#tilde{t}} = 850 GeV", path + "/"+year+"_StealthSYY_2t6j_mStop-850.root", "hist", kCyan+1,     1.0, false, 9},        
+            {"RPV m_{ #tilde{t}} = 450 GeV",         path + "/"+year+"_RPV_2t6j_mStop-450.root",        "hist", kRed,  1.0, false, 2},
+            {"Stealth SYY m_{ #tilde{t}} = 850 GeV", path + "/"+year+"_StealthSYY_2t6j_mStop-850.root", "hist", kCyan+1,     1.0, false, 9},        
         };
     }
 
