@@ -19,7 +19,7 @@ void setHistInfo(const std::string& path, std::vector<histInfo>& data, std::vect
     //this uses the initializer syntax to initialize the histInfo object
     //               leg entry root file                 draw options  draw color
     data = {
-        {"Data" , path + "/"+year+"_Data.root", "PEX0", kBlack},
+        {"Data" , path + "/"+year+"_Data.root", "PELX0", kBlack, 1.0, false, 0, 4},
     };
     
     if (!doQCD) {
@@ -42,22 +42,22 @@ void setHistInfo(const std::string& path, std::vector<histInfo>& data, std::vect
     {
         sig = {        
             {"RPV m_{ #tilde{t}} = 450 GeV (#sigma_{#tilde{t} #bar{#tilde{t}}} #times 4)",          path + "/"+year+"_RPV_2t6j_mStop-450.root",        "hist", kRed,    4.0,  false, 2},
-            {"Stealth SYY m_{ #tilde{t}} = 850 GeV (#sigma_{#tilde{t} #bar{#tilde{t}}} #times 16)", path + "/"+year+"_StealthSYY_2t6j_mStop-850.root", "hist", kCyan+1, 16.0, false, 9},        
+            {"Stealth SY#bar{Y} m_{ #tilde{t}} = 850 GeV (#sigma_{#tilde{t} #bar{#tilde{t}}} #times 16)", path + "/"+year+"_StealthSYY_2t6j_mStop-850.root", "hist", kCyan+1, 16.0, false, 9},        
         };
     } else {
         sig = {        
             {"RPV m_{ #tilde{t}} = 450 GeV",         path + "/"+year+"_RPV_2t6j_mStop-450.root",        "hist", kRed,  1.0, false, 2},
-            {"Stealth SYY m_{ #tilde{t}} = 850 GeV", path + "/"+year+"_StealthSYY_2t6j_mStop-850.root", "hist", kCyan+1,     1.0, false, 9},        
+            {"Stealth SY#bar{Y} m_{ #tilde{t}} = 850 GeV", path + "/"+year+"_StealthSYY_2t6j_mStop-850.root", "hist", kCyan+1,     1.0, false, 9},        
         };
     }
 
     if (!doQCD) {
         syst = {
-            {"SYST",   path + "/"+year+"_MC_Syst_wNormUncSept14.root", "hist", kBlack, 1.0, true, 0},
+            {"SYST",   path + "/"+year+"_MC_Syst_wNormUncSept14.root", "hist", kBlack, 1.0, true, 0, 3},
         };
 
         rsyst = {
-            {"RSYST",  path + "/"+year+"_MC_Ratio_Syst_wNormUncSept14.root", "hist", kBlack, 1.0, true, 0},
+            {"RSYST",  path + "/"+year+"_MC_Ratio_Syst_wNormUncSept14.root", "hist", kBlack, 1.0, true, 0, 3},
         };
     }
 }
@@ -143,8 +143,8 @@ int main(int argc, char *argv[])
     } else {
         plt.plotStack("Jet_cm_pt_1_1l_ge7j_ge1b",   "CMS-SUS-19-004_Figure-aux_"+fig+"-a", "Leading Jet p_{T} [GeV]", "Events / 30 GeV", true,   3, true, true, 0,  1500, lumi, supplementary, approved);
         plt.plotStack("Jet_cm_m_1_1l_ge7j_ge1b",    "CMS-SUS-19-004_Figure-aux_"+fig+"-b", "Leading Jet Mass [GeV]",  "Events / 5 GeV",  false,  5, true, true, 0,  200,  lumi, supplementary, approved);
-        plt.plotStack("Jet_cm_phi_1_1l_ge7j_ge1b",  "CMS-SUS-19-004_Figure-aux_"+fig+"-c", "Leading Jet #phi",        "Events / bin",    false,  1, true, true, -4, 4,    lumi, supplementary, approved);
-        plt.plotStack("Jet_cm_eta_1_1l_ge7j_ge1b",  "CMS-SUS-19-004_Figure-aux_"+fig+"-d", "Leading Jet #eta",        "Events / bin",    false,  1, true, true, -6, 6,    lumi, supplementary, approved);
+        plt.plotStack("Jet_cm_phi_1_1l_ge7j_ge1b",  "CMS-SUS-19-004_Figure-aux_"+fig+"-d", "Leading Jet #phi",        "Events / bin",    false,  1, true, true, -4, 4,    lumi, supplementary, approved);
+        plt.plotStack("Jet_cm_eta_1_1l_ge7j_ge1b",  "CMS-SUS-19-004_Figure-aux_"+fig+"-c", "Leading Jet #eta",        "Events / bin",    false,  1, true, true, -6, 6,    lumi, supplementary, approved);
         plt.plotStack("jmt_ev0_top6_1l_ge7j_ge1b",  "CMS-SUS-19-004_Figure-aux_"+fig+"-e", "JMT0", "Events / bin", false, 1, true, true, 999.0, -999.9, lumi, supplementary, approved);
         plt.plotStack("jmt_ev1_top6_1l_ge7j_ge1b",  "CMS-SUS-19-004_Figure-aux_"+fig+"-f", "JMT1", "Events / bin", false, 1, true, true, 999.0, -999.9, lumi, supplementary, approved);
         plt.plotStack("fwm2_top6_1l_ge7j_ge1b",     "CMS-SUS-19-004_Figure-aux_"+fig+"-g", "FWM2", "Events / bin", false, 1, true, true, 999.0, -999.9, lumi, supplementary, approved);

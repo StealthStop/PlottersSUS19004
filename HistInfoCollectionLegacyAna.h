@@ -27,6 +27,8 @@ public:
     double scale; 
     bool norm2Data;
     int lineStyle;
+    int markerSize;
+    int markerStyle;
     std::shared_ptr<TH1> h;
     std::shared_ptr<TGraphErrors> ge;
 
@@ -82,13 +84,15 @@ public:
 
         //set the histogram color
         h->SetLineColor(color);
-        h->SetLineWidth(3);
+        h->SetLineWidth(4);
         h->SetMarkerColor(color);
-        h->SetMarkerStyle(20);
+        h->SetMarkerStyle(markerStyle);
+        h->SetMarkerSize(markerSize);
         h->Scale(scale);
 
         ge->SetLineWidth(0);
-        ge->SetMarkerSize(0);
+        ge->SetMarkerSize(markerSize);
+        ge->SetMarkerStyle(markerStyle);
         ge->SetFillStyle(3254);
         ge->SetFillColor(kBlack);
         
@@ -139,7 +143,7 @@ public:
         h->SetLineStyle(style);
     }
 
-    histInfo(const std::string& legName, const std::string& histFile, const std::string& drawOptions, const int color, const double scale = 1.0, const bool norm2Data = false, int lineStyle = 0) : legName(legName), histFile(histFile), histName(""), drawOptions(drawOptions), color(color), rebin(-1), scale(scale), norm2Data(norm2Data), lineStyle(lineStyle), h(nullptr)
+    histInfo(const std::string& legName, const std::string& histFile, const std::string& drawOptions, const int color, const double scale = 1.0, const bool norm2Data = false, int lineStyle = 0, int markersize = 0, int markerstyle = 8) : legName(legName), histFile(histFile), histName(""), drawOptions(drawOptions), color(color), rebin(-1), scale(scale), norm2Data(norm2Data), lineStyle(lineStyle), markerSize(markersize), markerStyle(markerstyle), h(nullptr)
     {
     }
 

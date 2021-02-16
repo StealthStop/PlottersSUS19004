@@ -204,7 +204,7 @@ def main() :
     mark.SetTextAlign(31)
     mark.SetTextSize(0.055)
     mark.SetTextFont(42)
-    mark.DrawLatex(1.0 - ROOT.gPad.GetLeftMargin() - 0.34, 1 - (ROOT.gPad.GetTopMargin() - 0.020), "arXiv:XXXX.XXXXX")
+    mark.DrawLatex(1.0 - ROOT.gPad.GetLeftMargin() - 0.34, 1 - (ROOT.gPad.GetTopMargin() - 0.020), "arXiv:2102.06976")
 
     mark.SetTextAlign(31)
     mark.SetTextSize(0.065)

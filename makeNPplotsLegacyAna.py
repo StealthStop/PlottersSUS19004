@@ -24,7 +24,7 @@ if hasHelp: argv.append("-h")
 
 ROOT.gStyle.SetErrorX(0)
 
-ARXIV = "XXXX.XXXXX"
+ARXIV = "2102.06976"
 
 parser = OptionParser(usage="usage: %prog [options] in.root  \nrun with --help to get list of options")
 parser.add_option("--approved", dest="approved", default=False,  action="store_true", help="Plot is approved, no preliminary")
