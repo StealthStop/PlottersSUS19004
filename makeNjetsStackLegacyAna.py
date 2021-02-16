@@ -44,15 +44,15 @@ for year in yearFile.keys():
         yearFile[year]["S"+mass] = ROOT.TFile.Open(theFile, "READ")
 
 mvaBins = ["D1", "D2", "D3", "D4"]
-aliases = {"TT"     : "t#bar{t}    ",
+aliases = {"TT"     : "t#bar{t}  ",
            "QCD"    : "QCD multijet",
-           "TTX"    : "t#bar{t} + X   ",
-           "OTHER"  : "Other   ",
+           "TTX"    : "t#bar{t} + X ",
+           "OTHER"  : "Other ",
            "SIG"    : "Fit Signal",
            "SIG1"   : "RPV m_{ #tilde{t}} = 450 GeV",
            #"SIG2"   : "RPV m_{ #tilde{t}} = 850 GeV",
            #"SIG3"   : "Stealth SYY m_{ #tilde{t}} = 350 GeV",
-           "SIG4"   : "Stealth SYY m_{ #tilde{t}} = 850 GeV"
+           "SIG4"   : "Stealth SY#bar{Y} m_{ #tilde{t}} = 850 GeV"
      
 }
 
@@ -61,7 +61,7 @@ procDictionary = {
                    "QCD"   : {"graph" : 0, "h" : 0, "lstyle" : 0, "lsize" : 0, "msize" : 0, "color" : ROOT.kGreen+1},
                    "OTHER" : {"graph" : 0, "h" : 0, "lstyle" : 0, "lsize" : 0, "msize" : 0, "color" : ROOT.kMagenta+2},
                    "TT"    : {"graph" : 0, "h" : 0, "lstyle" : 0, "lsize" : 0, "msize" : 0, "color" : ROOT.kBlue-6},
-                   "DATA"  : {"graph" : 0, "h" : 0, "lstyle" : 0, "lsize" : 5, "msize" : 5, "color" : ROOT.kBlack},
+                   "DATA"  : {"graph" : 0, "h" : 0, "lstyle" : 0, "lsize" : 4, "msize" : 4, "color" : ROOT.kBlack},
                    "SYST"  : {"graph" : 0, "h" : 0, "lstyle" : 0, "lsize" : 0, "msize" : 0, "color" : ROOT.kBlack},
                    "SIG"   : {"graph" : 0, "h" : 0, "lstyle" : 0, "lsize" : 0, "msize" : 0, "color" : ROOT.kGray+1},
                    "SIG1"  : {"graph" : 0, "h" : 0, "lstyle" : 2, "lsize" : 4, "msize" : 0, "color" : ROOT.kRed},
@@ -334,8 +334,8 @@ for mva in mvaBins:
     dummy1.GetYaxis().SetTitle("Events / bin")
     dummy1.GetYaxis().SetTitleSize(0.07)
     dummy1.GetXaxis().SetTitleSize(0.07)
-    dummy1.GetYaxis().SetLabelSize(0.06)
-    dummy1.GetXaxis().SetLabelSize(0.06)
+    dummy1.GetYaxis().SetLabelSize(0.055)
+    dummy1.GetXaxis().SetLabelSize(0.055)
     dummy1.GetYaxis().SetTitleOffset(1.1)
     dummy1.GetXaxis().SetTitleOffset(2.1)
     dummy1.SetMaximum(1e8)
@@ -357,10 +357,11 @@ for mva in mvaBins:
     mark.SetNDC(True)
 
     mark.SetTextAlign(11);
-    mark.SetTextSize(0.065);
+    mark.SetTextSize(0.085);
     mark.SetTextFont(61);
     mark.DrawLatex(ROOT.gPad.GetLeftMargin(), 1 - (ROOT.gPad.GetTopMargin() - 0.02), "CMS")
     mark.SetTextFont(52);
+    mark.SetTextSize(0.065);
     if not args.approved: mark.DrawLatex(ROOT.gPad.GetLeftMargin() + 0.103, 1 - (ROOT.gPad.GetTopMargin() - 0.02), "Preliminary")
 
     mark.SetTextFont(42)
@@ -399,8 +400,8 @@ for mva in mvaBins:
     totalRatio.GetYaxis().SetTitleOffset(0.8*dummy1.GetYaxis().GetTitleOffset()/PadFactor)
     totalRatio.GetXaxis().SetTitleOffset(dummy1.GetXaxis().GetTitleOffset()/PadFactor)
     totalRatio.GetXaxis().SetLabelOffset(0.02)
-    totalRatio.SetMarkerStyle(20); totalRatio.SetMarkerSize(5); totalRatio.SetMarkerColor(ROOT.kBlack);
-    totalRatio.SetLineWidth(5); totalRatio.SetLineColor(ROOT.kBlack)
+    totalRatio.SetMarkerStyle(20); totalRatio.SetMarkerSize(4); totalRatio.SetMarkerColor(ROOT.kBlack);
+    totalRatio.SetLineWidth(4); totalRatio.SetLineColor(ROOT.kBlack)
     
     totalRatio.Draw("E0P")
     systRatio.Draw("2SAME")
@@ -452,7 +453,7 @@ ROOT.gPad.SetLeftMargin(0.15)
 ROOT.gPad.SetBottomMargin(0.00)
 ROOT.gPad.SetRightMargin(0.04)
 
-iamLegend = ROOT.TLegend(ROOT.gPad.GetLeftMargin() + 0.02, 0.85 - ROOT.gPad.GetTopMargin(), ROOT.gPad.GetLeftMargin() + 0.8, 1 - ROOT.gPad.GetTopMargin() - 0.02)
+iamLegend = ROOT.TLegend(ROOT.gPad.GetLeftMargin() + 0.03, 0.85 - ROOT.gPad.GetTopMargin(), ROOT.gPad.GetLeftMargin() + 0.78, 1 - ROOT.gPad.GetTopMargin() - 0.02)
 
 iamLegend.SetTextSize(0.055)
 iamLegend.SetNColumns(5)
@@ -462,19 +463,20 @@ sigLegend = ROOT.TLegend(ROOT.gPad.GetLeftMargin() + 0.22, 0.70 - ROOT.gPad.GetT
 sigLegend.SetTextSize(0.055)
 sigLegend.SetNColumns(1)
 sigLegend.SetBorderSize(2)
+sigLegend.SetColumnSeparation(0.15)
 
-for process in ["TT", "TTX", "OTHER", "QCD"]: iamLegend.AddEntry(run2Dictionary[process]["h"], aliases[process], "F") 
+for process in ["TTX", "QCD", "OTHER", "TT"]: iamLegend.AddEntry(run2Dictionary[process]["h"], aliases[process], "F") 
 for process in ["SIG1", "SIG4"]: sigLegend.AddEntry(run2Dictionary[process]["h"], aliases[process], "L")
 
-iamLegend.AddEntry(run2Dictionary["DATA"]["h"], "Data", "EP")
+iamLegend.AddEntry(run2Dictionary["DATA"]["h"], "Data", "ELP")
 
 dummy1 = ROOT.TH1F("dummy1", "dummy1", 6, 0, 6)
 dummy1.SetTitle("")
 dummy1.GetYaxis().SetTitle("Events / bin")
 dummy1.GetYaxis().SetTitleSize(0.07)
 dummy1.GetXaxis().SetTitleSize(0.07)
-dummy1.GetYaxis().SetLabelSize(0.06)
-dummy1.GetXaxis().SetLabelSize(0.06)
+dummy1.GetYaxis().SetLabelSize(0.055)
+dummy1.GetXaxis().SetLabelSize(0.055)
 dummy1.GetYaxis().SetTitleOffset(1.1)
 dummy1.GetXaxis().SetTitleOffset(2.3)
 dummy1.SetMaximum(2e8)
@@ -494,10 +496,11 @@ mark = ROOT.TLatex()
 mark.SetNDC(True)
 
 mark.SetTextAlign(11);
-mark.SetTextSize(0.065);
+mark.SetTextSize(0.075);
 mark.SetTextFont(61);
 mark.DrawLatex(ROOT.gPad.GetLeftMargin(), 1 - (ROOT.gPad.GetTopMargin() - 0.02), "CMS")
 mark.SetTextFont(52);
+mark.SetTextSize(0.065);
 if not args.approved: mark.DrawLatex(ROOT.gPad.GetLeftMargin() + 0.103, 1 - (ROOT.gPad.GetTopMargin() - 0.02), "Preliminary")
 
 mark.SetTextFont(42)
@@ -529,8 +532,8 @@ totalRatioAll.GetXaxis().SetLabelSize(1.5*dummy1.GetXaxis().GetLabelSize()*PadFa
 totalRatioAll.GetYaxis().SetTitleOffset(1.0*dummy1.GetYaxis().GetTitleOffset()/PadFactor)
 totalRatioAll.GetXaxis().SetTitleOffset(dummy1.GetXaxis().GetTitleOffset()/PadFactor)
 totalRatioAll.GetXaxis().SetLabelOffset(0.02)
-totalRatioAll.SetMarkerStyle(20); totalRatioAll.SetMarkerSize(5); totalRatioAll.SetMarkerColor(ROOT.kBlack);
-totalRatioAll.SetLineWidth(5); totalRatioAll.SetLineColor(ROOT.kBlack)
+totalRatioAll.SetMarkerStyle(20); totalRatioAll.SetMarkerSize(4); totalRatioAll.SetMarkerColor(ROOT.kBlack);
+totalRatioAll.SetLineWidth(4); totalRatioAll.SetLineColor(ROOT.kBlack)
 
 totalRatioAll.Draw("E0P")
 systRatioAll.Draw("2SAME")

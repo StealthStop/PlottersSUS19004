@@ -125,7 +125,7 @@ public:
         mark.SetTextFont(42);
         mark.SetTextAlign(11);
         mark.SetTextSize(0.030);
-        mark.DrawLatex(gPad->GetLeftMargin() + 0.02, 1 - (gPad->GetTopMargin() + 0.05), "arXiv:XXXX.XXXXX");        
+        mark.DrawLatex(gPad->GetLeftMargin() + 0.02, 1 - (gPad->GetTopMargin() + 0.05), "arXiv:2102.06976");        
 
         //save new plot to file
         if(firstOnly) 

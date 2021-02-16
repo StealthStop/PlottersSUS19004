@@ -39,35 +39,37 @@ public:
     {
         //This is a magic incantation to disassociate opened histograms from their files so the files can be closed
         TH1::AddDirectory(false);
+        gStyle->SetFrameLineWidth(2);
+        gStyle->SetEndErrorSize(0);
 
-        double xTitleSize = 0.065; double yTitleSize = 0.065;
-        double xLabelSize = 0.045;  double yLabelSize = 0.045;
-        double xOffset = 2.0;      double yOffset = 1.1;
+        double xTitleSize = 0.07; double yTitleSize = 0.07;
+        double xLabelSize = 0.055; double yLabelSize = 0.055;
+        double xOffset = 2.1;     double yOffset = 1.15;
         double sf = (1.0-padDiv)/padDiv;
         //create the canvas for the plot
-        TCanvas *c = new TCanvas("c1", "c1", 800, 800);
+        TCanvas *c = new TCanvas("c1", "c1", 2400, 2400);
         //switch to the canvas to ensure it is the active object
         c->cd();
 
         // Upper plot will be in pad1: TPad(x1, y1, x2, y2)
         TPad *pad1 = new TPad("pad1", "pad1", 0.0, padDiv, 1.0, 1.0);
         pad1->SetBottomMargin(0.); // Upper and lower plot are joined
-        pad1->SetLeftMargin(0.14); // Upper and lower plot are joined
-        pad1->SetRightMargin(0.05);
+        pad1->SetLeftMargin(0.15); // Upper and lower plot are joined
+        pad1->SetRightMargin(0.04);
+        pad1->SetTopMargin(0.10);
         pad1->Draw();             // Draw the upper pad: pad1
         pad1->cd();               // pad1 becomes the current pad
         
         //Create TLegend
         TLegend *leg = nullptr;
-        if (not supplementary) leg = new TLegend(0.17, 0.50, 0.35, 0.88);
-        else leg = new TLegend(0.17, 0.46, 0.35, 0.84);
-        leg->SetFillStyle(0);
+        if (not supplementary) leg = new TLegend(gPad->GetLeftMargin() + 0.03, 0.85 - gPad->GetTopMargin(), gPad->GetLeftMargin() + 0.78, 1 - gPad->GetTopMargin() - 0.02);
+        else leg = new TLegend(gPad->GetLeftMargin() + 0.03, 0.81 - gPad->GetTopMargin(), gPad->GetLeftMargin() + 0.78, 1 - gPad->GetTopMargin() - 0.06);
         leg->SetColumnSeparation(0.15);
         leg->SetBorderSize(0);
         leg->SetLineWidth(1);
-        leg->SetNColumns(1);
+        leg->SetNColumns(5);
         leg->SetTextFont(42);
-        leg->SetTextSize(0.040);
+        leg->SetTextSize(0.055);
 
         TLegend *dataleg = nullptr;
         if (not supplementary) dataleg = new TLegend(0.26, 0.50, 0.40, 0.88);
@@ -81,15 +83,15 @@ public:
         dataleg->SetTextSize(0.040);
 
         TLegend *sigleg = nullptr;
-        if (not supplementary) sigleg = new TLegend(0.40, 0.56, 0.84, 0.88);
-        else sigleg = new TLegend(0.56, 0.56, 0.82, 0.85);
-        sigleg->SetFillStyle(0);
+        if (not supplementary) sigleg = new TLegend(gPad->GetLeftMargin() + 0.01, 0.67 - gPad->GetTopMargin(), 1. - gPad->GetRightMargin() - 0.02, 0.85 - gPad->GetTopMargin());
+        else sigleg = new TLegend(gPad->GetLeftMargin() + 0.2, 0.63 - gPad->GetTopMargin(), 1. - gPad->GetRightMargin() - 0.02, 0.85 - gPad->GetTopMargin() - 0.04);
+        //sigleg->SetFillStyle(0);
         sigleg->SetColumnSeparation(0.15);
         sigleg->SetBorderSize(0);
         sigleg->SetLineWidth(1);
         sigleg->SetNColumns(1);
         sigleg->SetTextFont(42);
-        sigleg->SetTextSize(0.040);
+        sigleg->SetTextSize(0.055);
 
         // ------------------------
         // -  Setup plots
@@ -155,7 +157,8 @@ public:
             for(const auto& entry : hc_.dataVec_)
             {
                 legType = (entry.drawOptions=="hist") ? "L" : entry.drawOptions;
-                dataleg->AddEntry(entry.h.get(), entry.legEntry.c_str(), legType);
+                std::cout << legType << std::endl;
+                leg->AddEntry(entry.h.get(), entry.legEntry.c_str(), legType);
                 smartMax(entry.h.get(), leg, static_cast<TPad*>(gPad), min, max, lmax, true);
                 entry.draw();
                 entry.h->Draw("E0 SAME");
@@ -174,14 +177,8 @@ public:
 
         //plot legend
         leg->Draw("same");
-        dataleg->Draw("same");
+        //dataleg->Draw("same");
         sigleg->Draw("same");
-
-        TLatex significance;  
-        significance.SetNDC(true);
-        significance.SetTextAlign(11);
-        significance.SetTextFont(52);
-        significance.SetTextSize(0.030);
 
         //Draw CMS and lumi lables
         drawLables(lumi, supplementary, approved);
@@ -196,9 +193,10 @@ public:
         c->cd();          // Go back to the main canvas before defining pad2
         TPad *pad2 = new TPad("pad2", "pad2", 0.0, 0.0, 1.0, padDiv);
         pad2->SetTopMargin(0.);
-        pad2->SetBottomMargin(0.30);
-        pad2->SetRightMargin(0.05);
-        pad2->SetLeftMargin(0.14);
+        pad2->SetBottomMargin(0.35);
+        pad2->SetRightMargin(0.04);
+        pad2->SetLeftMargin(0.15);
+
         pad2->SetGridy(); // Horizontal grid
         pad2->Draw();
         pad2->cd();       // pad2 becomes the current pad        
@@ -249,6 +247,7 @@ public:
             c->Print((outpath_ + "/" + figName + "_prelim.pdf").c_str());
         } else {
             c->Print((outpath_ + "/" + figName + ".pdf").c_str());
+            c->Print((outpath_ + "/" + figName + ".png").c_str());
         }
 
         //clean up dynamic memory
@@ -278,8 +277,8 @@ public:
         }
         
         gpThreshMax = std::max(gpThreshMax, pThreshMax);
-        if (isLog) gmax = 10*std::max(gmax, max);
-        else gmax = 1.08*std::max(gmax, max);
+        if (isLog) gmax = std::max(gmax, max);
+        else gmax = 1.0*std::max(gmax, max);
         gmin = std::min(gmin, min);
     }
 
@@ -308,7 +307,7 @@ public:
             double locMin = 0.0;
             double legMin = (1.2*max - locMin) * (leg->GetY1() - gPad->GetBottomMargin()) / ((1 - gPad->GetTopMargin()) - gPad->GetBottomMargin());
             if(lmax > legMin) max *= (lmax - locMin)/(legMin - locMin);
-            dummy.h->GetYaxis()->SetRangeUser(1.0, max*1.4);
+            dummy.h->GetYaxis()->SetRangeUser(1.0, max*1.3);
         }
         //set x-axis range
         if(xmin < xmax) dummy.h->GetXaxis()->SetRangeUser(xmin, xmax);
@@ -326,23 +325,24 @@ public:
 
         //Draw CMS mark
         mark.SetTextAlign(11);
-        mark.SetTextSize(0.065);
+        mark.SetTextSize(0.075);
         mark.SetTextFont(61);
-        mark.DrawLatex(gPad->GetLeftMargin(), 1 - (gPad->GetTopMargin() - 0.017), "CMS");
+        mark.DrawLatex(gPad->GetLeftMargin(), 1 - (gPad->GetTopMargin() - 0.02), "CMS");
         mark.SetTextFont(52);
-        if (not approved and not supplementary) mark.DrawLatex(gPad->GetLeftMargin() + 0.1025, 1 - (gPad->GetTopMargin() - 0.017), "Preliminary");
-        else if (supplementary) mark.DrawLatex(gPad->GetLeftMargin() + 0.1025, 1 - (gPad->GetTopMargin() - 0.017), "Supplementary");
-        else mark.DrawLatex(gPad->GetLeftMargin() + 0.1025, 1 - (gPad->GetTopMargin() - 0.017), "");
+        mark.SetTextSize(0.065);
+        if (not approved and not supplementary) mark.DrawLatex(gPad->GetLeftMargin() + 0.118, 1 - (gPad->GetTopMargin() - 0.02), "Preliminary");
+        else if (supplementary) mark.DrawLatex(gPad->GetLeftMargin() + 0.118, 1 - (gPad->GetTopMargin() - 0.02), "Supplementary");
+        else mark.DrawLatex(gPad->GetLeftMargin() + 0.118, 1 - (gPad->GetTopMargin() - 0.02), "");
 
         //Draw lumistamp
         mark.SetTextFont(42);
         mark.SetTextAlign(31);
-        mark.DrawLatex(1 - gPad->GetRightMargin(), 1 - (gPad->GetTopMargin() - 0.017), lumistamp);        
+        mark.DrawLatex(1 - gPad->GetRightMargin(), 1 - (gPad->GetTopMargin() - 0.02), lumistamp);        
 
         if (supplementary)
         {
             mark.SetTextSize(0.04);
-            mark.DrawLatex(gPad->GetLeftMargin() + 0.26, 1 - (gPad->GetTopMargin() + 0.055), "arXiv XXXX.XXXXX");
+            mark.DrawLatex(gPad->GetLeftMargin() + 0.26, 1 - (gPad->GetTopMargin() + 0.055), "arXiv:2102.06976");
         }
     }    
 };

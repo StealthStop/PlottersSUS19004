@@ -94,7 +94,13 @@ def main() :
             fitGraph                    = inputRootFile.Get( "Fit_"+snnBin );         fitGraph.SetName( "Total_Fit_"+snnBin ); fitGraph.SetTitle( "Total_Fit_"+snnBin )
             dataGraph                   = inputRootFile.Get( "Nobs_"+snnBin );        dataGraph.SetName( "Nobs_"+snnBin );     dataGraph.SetTitle( "Nobs_"+snnBin )
             fitHist                     = ROOT.TH1D( "fitHist_"+snnBinList[itBin], "fitHist_"+snnBinList[itBin], 6, 0, 6 )
-    
+
+            sigRefHist1.SetMarkerSize( 0 )
+            sigRefHist2.SetMarkerSize( 0 )
+   
+            sigRefHist1.SetMarkerStyle( 8 )
+            sigRefHist2.SetMarkerStyle( 8 )
+
             #Make the fit graph (TGraphAsymmErrors object) into a histogram object so that axes can be changed accordingly (can also use dummy histogram here).
             #Bands will be drawn using the TGraphAsymmErrors, so the bin error here is just for some consistency ( but is not really used ).
             for itHistBin in xrange( 0, fitGraph.GetN() ) :
@@ -104,6 +110,8 @@ def main() :
             #Fit colors determined by previous iteration of the code.
             fitHist.SetLineColor( 4 )
             fitHist.SetLineWidth( 2 )
+            fitHist.SetMarkerSize( 0 )
+            fitHist.SetMarkerStyle( 8 )
             
             #Special care has to be done to the first bit since it defines the y-axis
             #TO DO: Parameters have not been fully made a function of the border size yet (or the aspect ratio)
@@ -174,7 +182,7 @@ def main() :
     
             #Draw and save the legend on in the S_{NN,4} bin.
             if itBin == len(snnBinList) - 1 :
-                
+            
                 l1_yStart                   = 0.71
                 l2_yStart                   = 0.55
 
@@ -190,13 +198,13 @@ def main() :
                 l2.SetTextSize(0.08*pad2and3Size/pad1and4Size)
            
                 l1.AddEntry( fitHist, "Bkg Fit" )
-                l1.AddEntry( dataGraph, "N observed", "pl" )
+                l1.AddEntry( dataGraph, "N observed", "pe" )
                 if( args.bkgonlyfit ) :
-                    l1.AddEntry( sigRefHist1, args.model1+" m_{#tilde t} = "+args.mass1+" GeV" )
+                    l1.AddEntry( sigRefHist1, args.model1+" m_{ #tilde{t}} = "+args.mass1+" GeV" )
                 else :
                     l1.AddEntry( sigHist, "Fit Signal" )
                 if( args.twosigfit ) :
-                    l1.AddEntry( sigRefHist2, args.model2+" m_{#tilde t} = "+args.mass2+" GeV" )
+                    l1.AddEntry( sigRefHist2, args.model2+" m_{ #tilde{t}} = "+args.mass2+" GeV" )
                 if( args.bkgdfit ) :
                     l1.AddEntry( bkgdHist, "Bkgd" )
                 if( args.compshapes ):
@@ -214,6 +222,10 @@ def main() :
                 if( args.compshapes ):
                     l2.Draw()
 
+                mark.SetTextFont( 42 )
+                mark.SetTextSize(0.08)
+                mark.DrawLatex( 0.4716, 0.5951, "_" )
+                
             outfile.cd()
 
             dataGraph = SetEx( dataGraph, 0.0 )

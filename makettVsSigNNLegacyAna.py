@@ -34,9 +34,9 @@ sig1f = ROOT.TFile.Open(inputDir + "/%s/%s_RPV_2t6j_mStop-450.root"%(year,year))
 sig2f = ROOT.TFile.Open(inputDir + "/%s/%s_StealthSYY_2t6j_mStop-850.root"%(year,year))
 
 histDict = {"Jet_cm_pt_1_1l_ge7j_ge1b" : {"subfig" : "a", "X" : {"title" : "Leading Jet p_{T} [GeV]", "rebin" : 2}},
-           "Jet_cm_eta_1_1l_ge7j_ge1b" : {"subfig" : "b", "X" : {"title" : "Leading Jet #eta", "rebin" : 1}},
-           "Jet_cm_phi_1_1l_ge7j_ge1b" : {"subfig" : "c", "X" : {"title" : "Leading Jet #phi", "rebin" : 1}},
-           "Jet_cm_m_1_1l_ge7j_ge1b"   : {"subfig" : "d", "X" : {"title" : "Leading Jet mass [GeV]", "rebin" : 10}},
+           "Jet_cm_eta_1_1l_ge7j_ge1b" : {"subfig" : "c", "X" : {"title" : "Leading Jet #eta", "rebin" : 1}},
+           "Jet_cm_phi_1_1l_ge7j_ge1b" : {"subfig" : "d", "X" : {"title" : "Leading Jet #phi", "rebin" : 1}},
+           "Jet_cm_m_1_1l_ge7j_ge1b"   : {"subfig" : "b", "X" : {"title" : "Leading Jet mass [GeV]", "rebin" : 10}},
            "jmt_ev0_top6_1l_ge7j_ge1b" : {"subfig" : "e", "X" : {"title" : "JMT0", "rebin" : 1}},
            "jmt_ev1_top6_1l_ge7j_ge1b" : {"subfig" : "f", "X" : {"title" : "JMT1", "rebin" : 1}},
            "fwm2_top6_1l_ge7j_ge1b"    : {"subfig" : "g", "X" : {"title" : "FWM2", "rebin" : 1}},
@@ -113,14 +113,14 @@ for name, options in histDict.iteritems():
     ROOT.gPad.SetBottomMargin(0.12)
     ROOT.gPad.SetRightMargin(0.04)
     
-    iamLegend = ROOT.TLegend(ROOT.gPad.GetLeftMargin() + 0.05, 0.70, 1 - ROOT.gPad.GetRightMargin() - 0.05, 0.8)
+    iamLegend = ROOT.TLegend(ROOT.gPad.GetLeftMargin() + 0.03, 0.70, 1 - ROOT.gPad.GetRightMargin() - 0.01, 0.8)
     
     iamLegend.SetTextSize(0.03)
     iamLegend.SetNColumns(3)
     iamLegend.SetBorderSize(2)
     
-    iamLegend.AddEntry(sig1h, "RPV m_{#tilde{t}} = 450 GeV", "F")
-    iamLegend.AddEntry(sig2h, "SYY m_{#tilde{t}} = 850 GeV", "F")
+    iamLegend.AddEntry(sig1h, "RPV m_{ #tilde{t}} = 450 GeV", "F")
+    iamLegend.AddEntry(sig2h, "Stealth SY#bar{Y} m_{ #tilde{t}} = 850 GeV", "F")
     iamLegend.AddEntry(tth,   "t#bar{t}", "F")
 
     tth.SetTitle("")
@@ -153,7 +153,7 @@ for name, options in histDict.iteritems():
     mark.SetTextAlign(11)
     mark.SetTextSize(0.025)
     mark.SetTextFont(42)
-    mark.DrawLatex(ROOT.gPad.GetLeftMargin() + 0.04, 1 - (ROOT.gPad.GetTopMargin() + 0.09), "arXiv:XXXX.XXXXX")
+    mark.DrawLatex(ROOT.gPad.GetLeftMargin() + 0.04, 1 - (ROOT.gPad.GetTopMargin() + 0.09), "arXiv:2102.06976")
 
     mark.SetTextSize(0.045);
     mark.SetTextFont(42)

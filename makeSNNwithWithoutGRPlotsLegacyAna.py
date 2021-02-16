@@ -13,9 +13,9 @@ def main(approved, year, withGR):
 
     outName = None
     if withGR:
-        outName = "CMS-SUS-19-004_Figure-aux_003-b"
+        outName = "./PlotsForLegacyAna/Supplementary/CMS-SUS-19-004_Figure-aux_003-b"
     else:
-        outName = "CMS-SUS-19-004_Figure-aux_003-a"
+        outName = "./PlotsForLegacyAna/Supplementary/CMS-SUS-19-004_Figure-aux_003-a"
 
     data = np.load(fName, allow_pickle=True, encoding='latin1').item()
     prefix = ""
@@ -85,7 +85,7 @@ def main(approved, year, withGR):
     mark.SetTextAlign(11)
     mark.SetTextSize(0.035)
     mark.SetTextFont(42)
-    mark.DrawLatex(ROOT.gPad.GetLeftMargin() + 0.03, 1 - (ROOT.gPad.GetTopMargin() + 0.055), "arXiv:XXXX.XXXXX")
+    mark.DrawLatex(ROOT.gPad.GetLeftMargin() + 0.03, 1 - (ROOT.gPad.GetTopMargin() + 0.055), "arXiv:2102.06976")
     
     c1.SaveAs(outName + ".pdf")
     c1.SaveAs(outName + ".png")
