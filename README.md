@@ -108,6 +108,7 @@ python makeNPplotsLegacyAna.py --year 2016     --approved
 python makeNPplotsLegacyAna.py --year 2017     --approved
 python makeNPplotsLegacyAna.py --year 2018pre  --approved
 python makeNPplotsLegacyAna.py --year 2018post --approved
+python makeNPplotsLegacyAna.py --year Combo    --approved
 ```
 ### Making Figure 7 and 8
 
